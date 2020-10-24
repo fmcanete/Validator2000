@@ -5,6 +5,7 @@ from tkinter import *
 
 # IMPORTAR LOS ARCHIVOS
 import setUp
+import methods
 
 
 
