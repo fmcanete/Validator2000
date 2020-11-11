@@ -22,8 +22,7 @@ listaCompleta = []
 ##################### INVOCAR METODOS #################################
 ########################################################################
 
-#window = setUp.OpenForms.abrirFormulario
-#setUp.OpenForms.abrirFormulario()	
+	
 
 mov2000Plano = archivos.manejoDeLosArchivosTXT.abrirArchivo(mov2000Plano)
 
@@ -32,3 +31,6 @@ listaArchivo, contadorArchivo = archivos.manejoDeLosArchivosTXT.recorrerArchivoM
 listaCompleta = archivos.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
 
 archivos.manejoDeLosArchivosTXT.cerrarArchivo(mov2000Plano)
+
+window = setUp.OpenForms.abrirFormulario
+setUp.OpenForms.abrirFormulario()
