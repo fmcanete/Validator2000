@@ -7,19 +7,23 @@ import pandas as pd
 class MyForm(wx.Frame):
 	
 	def __init__(self):
-		"""Constructor"""
+		#Se inicializa el Frame dónde va el título y el tamaño de la ventana
 		wx.Frame.__init__(self, parent=None, title="Lector MOV2000 - VALIDATOR",size=(900,300))
 		panel = wx.Panel(self)
+		
 		itera = 0
-		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta','NombreComercio','BancoEstab','NumtarMov2000','Token','NumToken','PosDataCode','VisaRelease']
-		rango = len(nombres)
-		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV', index_col=0)
-		CantidadTranasacciones = len(LecturaCamposBasicos)
-		myGrid = gridlib.Grid(panel)
-		myGrid.CreateGrid(CantidadTranasacciones + 1, rango)
+		#Se colocan los nombres de las columnas
+		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta'
+		,'NombreComercio','BancoEstab','NumtarMov2000','Token','NumToken','PosDataCode','VisaRelease'] 
+		rango = len(nombres)   #Se toma la dimensión de la lista anterior
+		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
+		CantidadTranasacciones = len(LecturaCamposBasicos) #Se obtiene la cantidad de transacciones
+		
+		myGrid = gridlib.Grid(panel)        #Se crea la grilla
+		myGrid.CreateGrid(CantidadTranasacciones + 1, rango)  #Se crea la grilla con la cantidad de filas del num de trx y los campos
 
 		
-		#print(LecturaCamposBasicos)
+		#ACA ES UN FOR DONDE SE VAN RELLENANDO LA GRILLA CREADA ANTERIORMENTE
 
 		for itera in range(rango):
 			
@@ -35,7 +39,7 @@ class MyForm(wx.Frame):
 					
 
 					else:   
-						#print("esto es itera:",j[2 + itera])
+						
 						myGrid.SetCellValue(i+1,itera, str(j[itera]))
 
 	   
@@ -56,8 +60,8 @@ class MyForm(wx.Frame):
 # 		#Prueba = MyForm().Show()
 # 		self.Show()
 
-if __name__ == "__main__":
-	app = wx.App()
-	display = MyForm().Show()
-	#frame = MainFrame()
-	app.MainLoop()
+# if __name__ == "__main__":
+# 	app = wx.App()
+# 	display = MyForm().Show()
+# 	#frame = MainFrame()
+# 	app.MainLoop()

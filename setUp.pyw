@@ -6,6 +6,7 @@ import Grilla
 import wx
 import wx.grid as gridlib
 
+
 class OpenForms(): 
 
 	def abrirFormulario():
@@ -16,7 +17,7 @@ class OpenForms():
 		mensaje.pack()
 		#BOTÓN LEER QUE LLAMA AL MÉTODO CLICKED
 		def clicked():
-			window.destroy()
+			#window.destroy()
 			
 			app = wx.App()
 			display = Grilla.MyForm().Show()

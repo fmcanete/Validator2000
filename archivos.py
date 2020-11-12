@@ -16,19 +16,16 @@ class manejoDeLosArchivosTXT():
 	def recorrerArchivoMov2000(mov2000Plano, listaArchivo, contadorArchivo):	#ESTE METODO RECORRE EL ARCHIVO Y GUARDA LA LISTA CON LOS VALORES
 		contadorArchivo = 0
 		listaArchivo = []
-		for linea in mov2000Plano:
-			if linea[-1] == "\n":			#si el ultimo caracter es salto de linea
-				linea = linea[:-1]			#desde el comienzo hasta el final lo agrega
-				listaArchivo.append(linea)
-				contadorArchivo = contadorArchivo+1
-		#		print("LINEA: ",contadorArchivo, listaArchivo)
-			else:
-				listaArchivo.append(linea)
-		#		print("LINEA: ",contadorArchivo, listaArchivo)
+		for linea in mov2000Plano:				#Se modifica el for, se guarda toda la trama incluyendo saltos de linea
+			listaArchivo.append(linea)
+			contadorArchivo = contadorArchivo + 1
+		
+		listaArchivo.append("")					#Se le agrega un espacio vacío a la lista para el WHILE siguiente del parseo
+		
 		return listaArchivo, contadorArchivo
 
 	def subStringLista(listaArchivo, contadorArchivo, listaCompleta):
-		cont = 0
+		cont = 1
 		numTarMovMes = []
 		establecimiento = []
 		nroAut =[]
@@ -78,5 +75,5 @@ class manejoDeLosArchivosTXT():
 				'numTarMov2000', 'Token', 'numToken', 'posDataCode', 'visaRelease'])
 			pass
 		pass
-		df.to_csv('CSV_MOV2000.csv')
+		df.to_csv('CSV_MOV2000.csv', sep=';')
 		return listaCompleta
