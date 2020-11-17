@@ -5,8 +5,8 @@ import pandas as pd
 
 class manejoDeLosArchivosTXT():
 
-	def abrirArchivo(mov2000Plano):
-		mov2000Plano = open(os.getcwd()+"/MOV2000.txt", "r")
+	def abrirArchivo(mov2000Plano,ruta):
+		mov2000Plano = open(ruta, "r")
 		#open("MOV2000.txt", "r")
 		return mov2000Plano
 

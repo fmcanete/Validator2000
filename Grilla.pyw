@@ -55,6 +55,7 @@ class MyForm(wx.Frame):
 							if j[itera] == 'S': 
 								myGrid.SetCellValue(i+1,itera, str(j[itera]))
 								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
+								myGrid.SetCellTextColour(i+1, itera, wx.WHITE)
 							else:
 								myGrid.SetCellValue(i+1,itera, str(j[itera]))
 						
@@ -79,6 +80,7 @@ class MyForm(wx.Frame):
 							if j[itera] == 'S': 
 								myGrid.SetCellValue(i+1,itera, str(j[itera]))
 								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
+								myGrid.SetCellTextColour(i+1, itera, wx.WHITE)
 							else:
 								myGrid.SetCellValue(i+1,itera, str(j[itera]))
 						
