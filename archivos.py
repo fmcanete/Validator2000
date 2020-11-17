@@ -68,11 +68,11 @@ class manejoDeLosArchivosTXT():
 				saltoLinea.append(cadena[1053])
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
 				'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
-				'nombreComercio': nombreComercio, 'bancoEstablecimiento': bancoEstablecimiento, 'numTarMov2000': numTarMov2000, 'token':token,
+				'nombreComercio': nombreComercio, 'bancoEstablecimiento': bancoEstablecimiento, 'numTarMov2000': numTarMov2000, 'token':token,'numToken':numToken,
 				'posDataCode':posDataCode, 'visaRelease':visaRelease}
 				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
 				'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'bancoEstablecimiento',
-				'numTarMov2000', 'Token', 'numToken', 'posDataCode', 'visaRelease'])
+				'numTarMov2000', 'token', 'numToken', 'posDataCode', 'visaRelease'])
 			pass
 		pass
 		df.to_csv('CSV_MOV2000.csv', sep=';')

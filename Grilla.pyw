@@ -31,16 +31,58 @@ class MyForm(wx.Frame):
 					
 					
 					if i == 0:
-						
-						myGrid.SetCellValue(i,itera, str(nombres[itera]))
+						############ NOMBRES COLUMNAS ##################
+						myGrid.SetCellValue(i,itera, str(nombres[itera])) #Se le agrega el valor (fila,columna,dato)
 						myGrid.SetCellTextColour(i, itera, wx.WHITE)
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
-						myGrid.SetCellValue(i+1,itera, str(j[itera]))
-					
+						################################################
+						
+						if itera != 16 and itera != 11 and itera != 13: #Validación VISA RELEASE/EMISION NO PRISMA/TOKEN
+							myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 16 :
+							if j[itera] != ' '	: 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.GREEN)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 11 :
+							if j[itera] == 998: 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.YELLOW)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 13 :
+							if j[itera] == 'S': 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						
+						
 
 					else:   
+						if itera != 16 and itera != 11 and itera != 13: #Validación VISA RELEASE/EMISION NO PRISMA/TOKEN
+							myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 16 :
+							if j[itera] != ' '	: 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.GREEN)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 11 :
+							if j[itera] == 998: 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.YELLOW)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						elif itera == 13 :
+							if j[itera] == 'S': 
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
+							else:
+								myGrid.SetCellValue(i+1,itera, str(j[itera]))
 						
-						myGrid.SetCellValue(i+1,itera, str(j[itera]))
+							
 
 	   
 		

@@ -5,6 +5,9 @@ import os
 import Grilla
 import wx
 import wx.grid as gridlib
+# IMPORTAR LOS ARCHIVOS
+import archivos
+
 
 
 class OpenForms(): 
@@ -17,8 +20,19 @@ class OpenForms():
 		mensaje.pack()
 		#BOTÓN LEER QUE LLAMA AL MÉTODO CLICKED
 		def clicked():
+			mov2000Plano = "a"
+			listaArchivo = []
+			contadorArchivo = 0
+			CSV_MOV2000 = "a"
+			listaCompleta = []
 			#window.destroy()
-			
+			mov2000Plano = archivos.manejoDeLosArchivosTXT.abrirArchivo(mov2000Plano)
+
+			listaArchivo, contadorArchivo = archivos.manejoDeLosArchivosTXT.recorrerArchivoMov2000(mov2000Plano, listaArchivo, contadorArchivo)
+
+			listaCompleta = archivos.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
+
+			archivos.manejoDeLosArchivosTXT.cerrarArchivo(mov2000Plano)
 			app = wx.App()
 			display = Grilla.MyForm().Show()
 			#frame = MainFrame()
