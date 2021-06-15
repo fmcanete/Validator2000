@@ -37,8 +37,9 @@ class manejoDeLosArchivosTXT():
 		importeOrig = []
 		binTarj = []
 		nombreComercio = []
-		bancoEstablecimiento = []
+		TjCodBanco = []
 		numTarMov2000 = []
+		planGob = []
 		token = []
 		numToken = []
 		posDataCode = []
@@ -56,11 +57,12 @@ class manejoDeLosArchivosTXT():
 				moneda.append(cadena[131:134])
 				importe.append(str(float(cadena[134:149])/100))
 				codPais.append(cadena[153:155])
-				importeOrig.append(cadena[156:171])
+				importeOrig.append(cadena[156:170])
 				binTarj.append(cadena[171:177])
 				nombreComercio.append(cadena[321:342])
-				bancoEstablecimiento.append(cadena[396:399])
-				numTarMov2000.append(cadena[440:456])
+				TjCodBanco.append(cadena[396:399])
+				numTarMov2000.append(cadena[439:456])
+				planGob.append(cadena[592])
 				token.append(cadena[535])
 				numToken.append(cadena[536:552])
 				posDataCode.append(cadena[781:794])
@@ -68,11 +70,11 @@ class manejoDeLosArchivosTXT():
 				saltoLinea.append(cadena[1053])
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
 				'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
-				'nombreComercio': nombreComercio, 'bancoEstablecimiento': bancoEstablecimiento, 'numTarMov2000': numTarMov2000, 'token':token,'numToken':numToken,
+				'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 				'posDataCode':posDataCode, 'visaRelease':visaRelease}
 				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
-				'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'bancoEstablecimiento',
-				'numTarMov2000', 'token', 'numToken', 'posDataCode', 'visaRelease'])
+				'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
+				'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease'])
 			pass
 		pass
 		df.to_csv('CSV_MOV2000.csv', sep=';')

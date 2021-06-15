@@ -14,7 +14,7 @@ class MyForm(wx.Frame):
 		itera = 0
 		#Se colocan los nombres de las columnas
 		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta'
-		,'NombreComercio','BancoEstab','NumtarMov2000','Token','NumToken','PosDataCode','VisaRelease'] 
+		,'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease'] 
 		rango = len(nombres)   #Se toma la dimensión de la lista anterior
 		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
 		CantidadTranasacciones = len(LecturaCamposBasicos) #Se obtiene la cantidad de transacciones
@@ -36,53 +36,13 @@ class MyForm(wx.Frame):
 						myGrid.SetCellTextColour(i, itera, wx.WHITE)
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
 						################################################
-						
-						if itera != 16 and itera != 11 and itera != 13: #Validación VISA RELEASE/EMISION NO PRISMA/TOKEN
-							myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 16 :
-							if j[itera] != ' '	: 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.GREEN)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 11 :
-							if j[itera] == 998: 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.YELLOW)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 13 :
-							if j[itera] == 'S': 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
-								myGrid.SetCellTextColour(i+1, itera, wx.WHITE)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						myGrid.SetCellValue(i+1,itera, str(j[itera]))
 						
 						
 
 					else:   
-						if itera != 16 and itera != 11 and itera != 13: #Validación VISA RELEASE/EMISION NO PRISMA/TOKEN
-							myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 16 :
-							if j[itera] != ' '	: 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.GREEN)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 11 :
-							if j[itera] == 998: 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.YELLOW)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-						elif itera == 13 :
-							if j[itera] == 'S': 
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
-								myGrid.SetCellBackgroundColour(i+1,itera,wx.BLUE)
-								myGrid.SetCellTextColour(i+1, itera, wx.WHITE)
-							else:
-								myGrid.SetCellValue(i+1,itera, str(j[itera]))
+
+						myGrid.SetCellValue(i+1,itera, str(j[itera]))
 						
 							
 
