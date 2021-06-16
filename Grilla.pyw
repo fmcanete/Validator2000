@@ -22,6 +22,17 @@ class MyForm(wx.Frame):
 		myGrid = gridlib.Grid(panel)        #Se crea la grilla
 		myGrid.CreateGrid(CantidadTranasacciones + 1, rango)  #Se crea la grilla con la cantidad de filas del num de trx y los campos
 
+		def rellenaColumnaCondPositiva(grilla,im,jm,iteram,posicion,condicion,colores): #El metodo se rellena por la grilla/ i y j del for / el iterador / posicion a modificar /condicion del campo /color de WX
+
+			if iteram != posicion:
+				grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
+			else:
+				if jm[iteram] == condicion:
+					grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
+					grilla.SetCellBackgroundColour(im+1,iteram,colores)
+				else:
+					grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
+
 		
 		#ACA ES UN FOR DONDE SE VAN RELLENANDO LA GRILLA CREADA ANTERIORMENTE
 
@@ -36,13 +47,14 @@ class MyForm(wx.Frame):
 						myGrid.SetCellTextColour(i, itera, wx.WHITE)
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
 						################################################
-						myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma
 						
 						
 
 					else:   
 
-						myGrid.SetCellValue(i+1,itera, str(j[itera]))
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma
 						
 							
 
