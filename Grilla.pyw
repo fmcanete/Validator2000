@@ -25,13 +25,13 @@ class MyForm(wx.Frame):
 		def rellenaColumnaCondPositiva(grilla,im,jm,iteram,posicion,condicion,colores): #El metodo se rellena por la grilla/ i y j del for / el iterador / posicion a modificar /condicion del campo /color de WX
 
 			if iteram != posicion:
-				grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
+				grilla.SetCellValue(im+1,iteram, str(jm[iteram])) #Va llenando la grilla hasta que encuentra 1 trx a VALIDAR (ENP)
 			else:
-				if jm[iteram] == condicion:
-					grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
-					grilla.SetCellBackgroundColour(im+1,iteram,colores)
+				if jm[iteram] == condicion: #CUANDO LA ENCUENTRA
+					grilla.SetCellValue(im+1,iteram, str(jm[iteram])) #LLENA ACA ENP
+					grilla.SetCellBackgroundColour(im+1,iteram,colores) #PONE COLOR ENP
 				else:
-					grilla.SetCellValue(im+1,iteram, str(jm[iteram]))
+					grilla.SetCellValue(im+1,iteram, str(jm[iteram])) #SI ES DISTINTO A ENP (007, 999)
 
 		
 		#ACA ES UN FOR DONDE SE VAN RELLENANDO LA GRILLA CREADA ANTERIORMENTE
@@ -48,13 +48,17 @@ class MyForm(wx.Frame):
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
 						################################################
 						
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB HEADER
 						
 						
 
 					else:   
 
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB TRX
 						
 							
 

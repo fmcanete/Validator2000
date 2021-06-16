@@ -78,4 +78,12 @@ class manejoDeLosArchivosTXT():
 			pass
 		pass
 		df.to_csv('CSV_MOV2000.csv', sep=';')
+
+
+		
+		conassdad=TjCodBanco.count('998')
+		print(conassdad)
+
+
+
 		return listaCompleta
