@@ -1,0 +1,3 @@
+EMISION NO PRISMA: 4
+Tipo Debito: 5
+Tipo Credito: 5

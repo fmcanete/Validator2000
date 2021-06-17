@@ -44,6 +44,7 @@ class manejoDeLosArchivosTXT():
 		numToken = []
 		posDataCode = []
 		visaRelease = []
+		tipoTarjeta = []	#campo indTerm
 		saltoLinea = []
 		while listaArchivo[cont] != "":
 			cadena = listaArchivo[cont]
@@ -67,22 +68,42 @@ class manejoDeLosArchivosTXT():
 				numToken.append(cadena[536:552])
 				posDataCode.append(cadena[781:794])
 				visaRelease.append(cadena[1059])
+				tipoTarjeta.append(cadena[318])
 				saltoLinea.append(cadena[1053])
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
 				'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
 				'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
-				'posDataCode':posDataCode, 'visaRelease':visaRelease}
+				'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta}
 				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
 				'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
-				'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease'])
+				'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta'])
 			pass
 		pass
 		df.to_csv('CSV_MOV2000.csv', sep=';')
 
 
+		#################################
+		#CONTADOR DE TRX X FUNCIONALIDAD#
+		#################################
 		
-		conassdad=TjCodBanco.count('998')
-		print(conassdad)
+		logContador = open('logContador.txt', "w")
+		cantENP=TjCodBanco.count('998') #cuenta las ENP = 998
+		cantDebito = tipoTarjeta.count('E')
+		cantCredito = tipoTarjeta.count('1')
+		logContador.write('EMISION NO PRISMA: '+str (cantENP))
+		logContador.write('\n')
+		logContador.write('Tipo Debito: '+str (cantDebito))
+		logContador.write('\n')
+		logContador.write('Tipo Credito: '+str (cantCredito))
+		logContador.write('\n')
+		logContador.close()
+		
+		print(cantENP)
+
+
+		print(cantCredito)
+		print(cantDebito)
+
 
 
 

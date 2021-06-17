@@ -13,8 +13,8 @@ class MyForm(wx.Frame):
 		
 		itera = 0
 		#Se colocan los nombres de las columnas
-		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta'
-		,'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease'] 
+		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta',
+		'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease', 'tipoTarjeta'] 
 		rango = len(nombres)   #Se toma la dimensión de la lista anterior
 		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
 		CantidadTranasacciones = len(LecturaCamposBasicos) #Se obtiene la cantidad de transacciones
@@ -51,6 +51,7 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #PLAN GOB HEADER
 						
 						
 
@@ -59,7 +60,7 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB TRX
-						
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED) 
 							
 
 	   
