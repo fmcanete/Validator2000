@@ -52,6 +52,8 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #PLAN GOB HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #PLAN GOB HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 ))   #PLAN GOB HEADER
 						
 						
 
@@ -61,6 +63,7 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED) 
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 ))
 							
 
 	   
