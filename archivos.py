@@ -79,6 +79,42 @@ class manejoDeLosArchivosTXT():
 					'numTarMov2000', 'Token', 'numToken', 'posDataCode', 'visaRelease'])
 				pass
 			pass
+<<<<<<< Updated upstream
 			df.to_csv('CSV_MOV2000.csv')
 			return listaCompleta
 		
+=======
+		pass
+		df.to_csv('CSV_MOV2000.csv', sep=';')
+
+
+		##################################
+		#CONTADOR DE TRX X FUNCIONALIDAD #
+		##################################
+
+		def MetodoContador (listaCampo,archivo,Marca,texto):
+			cantidad = listaCampo.count(Marca)
+			archivo.write(texto + str(cantidad))
+			archivo.write('\n')
+			print(cantidad)
+			
+		logContador = open('logContador.txt', "w") 
+		logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
+		logContador.write('\n') 
+		MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ') 
+		MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ') 
+		
+		logContador.write('\n') 
+		logContador.write('Desglosados en: ') 
+		logContador.write('\n') 
+		
+		MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ') 
+		MetodoContador(planGob,logContador,'7','Plan Gobierno: ') 
+		MetodoContador(token,logContador,'S','Tokenizada: ') 
+		MetodoContador(visaRelease,logContador,'V','Visa Release: ')
+		
+		logContador.close()
+
+
+		return listaCompleta
+>>>>>>> Stashed changes
