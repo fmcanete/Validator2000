@@ -3,7 +3,7 @@ from tkinter import *
 import wx
 import wx.grid as gridlib
 import pandas as pd
-###########################PRUEBA DE MERGE##########################################
+#####################################################################
 class MyForm(wx.Frame):
 	
 	def __init__(self):
