@@ -85,26 +85,29 @@ class manejoDeLosArchivosTXT():
 		#################################
 		#CONTADOR DE TRX X FUNCIONALIDAD#
 		#################################
+
+		def MetodoContador (listaCampo,archivo,Marca,texto):
+			cantidad = listaCampo.count(Marca)
+			archivo.write(texto + str(cantidad))
+			archivo.write('\n')
+			print(cantidad)
+			
+		logContador = open('logContador.txt', "w") 
+		logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
+		logContador.write('\n') 
+		MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ') 
+		MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ') 
 		
-		logContador = open('logContador.txt', "w")
-		cantENP=TjCodBanco.count('998') #cuenta las ENP = 998
-		cantDebito = tipoTarjeta.count('E')
-		cantCredito = tipoTarjeta.count('1')
-		logContador.write('EMISION NO PRISMA: '+str (cantENP))
-		logContador.write('\n')
-		logContador.write('Tipo Debito: '+str (cantDebito))
-		logContador.write('\n')
-		logContador.write('Tipo Credito: '+str (cantCredito))
-		logContador.write('\n')
+		logContador.write('\n') 
+		logContador.write('Desglosados en: ') 
+		logContador.write('\n') 
+		
+		MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ') 
+		MetodoContador(planGob,logContador,'7','Plan Gobierno: ') 
+		MetodoContador(token,logContador,'S','Tokenizada: ') 
+		MetodoContador(visaRelease,logContador,'V','Visa Release: ')
+		
 		logContador.close()
-		
-		print(cantENP)
-
-
-		print(cantCredito)
-		print(cantDebito)
-
-
 
 
 		return listaCompleta
