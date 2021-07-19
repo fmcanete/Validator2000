@@ -1,5 +1,5 @@
  
-#Importar las librerias
+# #Importar las librerias
 import tkinter as tk
 from tkinter import *
 import pandas as pd
