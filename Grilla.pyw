@@ -3,7 +3,6 @@ from tkinter import *
 import wx
 import wx.grid as gridlib
 import pandas as pd
-########################################################################
 class MyForm(wx.Frame):
 	
 	def __init__(self):
