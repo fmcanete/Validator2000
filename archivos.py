@@ -70,15 +70,20 @@ class manejoDeLosArchivosTXT():
 				visaRelease.append(cadena[1059])
 				tipoTarjeta.append(cadena[318])
 				saltoLinea.append(cadena[1053])
-				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
+				
+
+			pass
+		pass
+		
+		data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
 				'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
 				'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 				'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta}
-				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
+		df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
 				'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
 				'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta'])
-			pass
-		pass
+
+	
 		df.to_csv('CSV_MOV2000.csv', sep=';')
 
 
@@ -86,28 +91,45 @@ class manejoDeLosArchivosTXT():
 		#CONTADOR DE TRX X FUNCIONALIDAD#
 		#################################
 
-		def MetodoContador (listaCampo,archivo,Marca,texto):
+		def MetodoContador (listaCampo,archivo,Marca,texto,listaTotal,posIni,posFin):
+			i=0
+			j=0
 			cantidad = listaCampo.count(Marca)
 			archivo.write(texto + str(cantidad))
 			archivo.write('\n')
-			print(cantidad)
+
+			if posIni != 0:
 			
+				while i == 0 and j < len(listaTotal):
+					transaccion = listaTotal[j]
+					if transaccion[posIni:posFin] == Marca:
+						archivo.write('Transaccion Testigo: ')
+						archivo.write(transaccion)
+						i = 1
+					j = j+1
+				#print(cantidad)
+
+
 		logContador = open('logContador.txt', "w") 
 		logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
 		logContador.write('\n') 
-		MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ') 
-		MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ') 
+		MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ',listaArchivo,0,0) 
+		MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ',listaArchivo,0,0) 
 		
 		logContador.write('\n') 
 		logContador.write('Desglosados en: ') 
 		logContador.write('\n') 
 		
-		MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ') 
-		MetodoContador(planGob,logContador,'7','Plan Gobierno: ') 
-		MetodoContador(token,logContador,'S','Tokenizada: ') 
-		MetodoContador(visaRelease,logContador,'V','Visa Release: ')
+		MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,396,399)
+		MetodoContador(planGob,logContador,'7','Plan Gobierno: ',listaArchivo,592,593)
+		MetodoContador(token,logContador,'S','Tokenizada: ',listaArchivo,0,0) 
+		MetodoContador(visaRelease,logContador,'V','Visa Release: ',listaArchivo,1059,1060)
 		
 		logContador.close()
 
+
+
+
+		
 
 		return listaCompleta
