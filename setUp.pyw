@@ -12,6 +12,9 @@ import time as time
 # IMPORTAR LOS ARCHIVOS
 import tkinter as tk
 import archivos
+from tkinter import *
+from tkinter.ttk import *
+import time
 
 
 
@@ -33,6 +36,11 @@ class OpenForms():
 
 		#BOTÓN LEER QUE LLAMA AL MÉTODO CLICKED
 		def clicked():
+			window.destroy()
+			import ventanaProgress			
+			
+
+			
 			mov2000Plano = "a"
 			listaArchivo = []
 			contadorArchivo = 0
@@ -40,40 +48,32 @@ class OpenForms():
 			listaCompleta = []
 			ruta= ""
 
-#			loading = tk.Tk() #Inicia el Formulario
-#			loading.title("Aguarde y será atendido por Jose")  #Pone el título
-#			loading.geometry('100x50') #Dimension el tamaño
-			window.progressbar = ttk.Progressbar(window, mode="indeterminate")
-			window.progressbar.pack()
-			window.progressbar.start()
-
 			ruta = abrir_archivo() #SE LLAMA EL MÉTODO DONDE SE CONSIGUE LA RUTA
+
 			#window.destroy()
 
 
 			
 
 			mov2000Plano = archivos.manejoDeLosArchivosTXT.abrirArchivo(mov2000Plano,ruta)
-			print("1")
-			print(time.strftime("%H:%M:%S"))
 
 			listaArchivo, contadorArchivo = archivos.manejoDeLosArchivosTXT.recorrerArchivoMov2000(mov2000Plano, listaArchivo, contadorArchivo)
-			print("2")			
-			print(time.strftime("%H:%M:%S"))
+
 			listaCompleta = archivos.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
-			print("3")			
-			print(time.strftime("%H:%M:%S"))
+
 			archivos.manejoDeLosArchivosTXT.cerrarArchivo(mov2000Plano)
-			print("4")			
-			print(time.strftime("%H:%M:%S"))
-			window.progressbar.destroy()
+
+
 			app = wx.App()
-			display = Grilla.MyForm().Show()
-
-
 			
-			#frame = MainFrame()
+			
+			ventanaProgress.start1()
+			display = Grilla.MyForm().Show()
+			ventanaProgress.ventana.destroy()
+
+	
 			app.MainLoop()
+
 			
 		btn = Button(window, text="Leer", command=clicked)
 		btn.pack(expand= "True",fill="x")

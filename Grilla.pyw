@@ -35,7 +35,7 @@ class MyForm(wx.Frame):
 
 		
 		#ACA ES UN FOR DONDE SE VAN RELLENANDO LA GRILLA CREADA ANTERIORMENTE
-
+		
 		for itera in range(rango):
 			
 			for i, j in LecturaCamposBasicos.iterrows():
@@ -51,9 +51,9 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #PLAN GOB HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #PLAN GOB HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 ))   #PLAN GOB HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #MARCA DE DÉBITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 ))   #MARCA TOKENIZADA
 						
 						
 
@@ -62,9 +62,10 @@ class MyForm(wx.Frame):
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,11,998,wx.YELLOW)   #Emisión no Prisma TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,17,'V',wx.GREEN)   #VISA RELEASE TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,'7',wx.BLUE)   #PLAN GOB TRX
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED) 
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 ))
-							
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'E',wx.RED)   #MARCA DE DÉBITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'S',wx.Colour( 187, 222, 251 )) #MARCA TOKENIZADA
+		
 
 	   
 		
@@ -73,19 +74,3 @@ class MyForm(wx.Frame):
 		panel.SetSizer(sizer)
 		
 
-# class MainFrame(wx.Frame):
-# 	""""""
-# 	#----------------------------------------------------------------------
-# 	def __init__(self):
-# 		"""Constructor"""
-# 		Lectura = 0
-# 		wx.Frame.__init__(self, None, title="LectorMOV2000 - VALIDATOR",size=(800,600))
-# 		#self.boton = wx.Button(self, -1, u"Botón")
-# 		#Prueba = MyForm().Show()
-# 		self.Show()
-
-# if __name__ == "__main__":
-# 	app = wx.App()
-# 	display = MyForm().Show()
-# 	#frame = MainFrame()
-# 	app.MainLoop()
