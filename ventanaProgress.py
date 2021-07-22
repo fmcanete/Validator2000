@@ -11,8 +11,10 @@ from tkinter.ttk import *
 import time
 
 ventana = Tk()
-ventana.title("Cargando..") 
+ventana.title("Cargando..")
+ventana.geometry('300x100')
 bar = Progressbar(ventana,orient=HORIZONTAL,length=300)
+ventana.eval('tk::PlaceWindow . center')
 bar.pack(pady=10)
 
 def start1():
