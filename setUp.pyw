@@ -12,8 +12,10 @@ import time as time
 # IMPORTAR LOS ARCHIVOS
 import tkinter as tk
 import archivos
-
-
+from tkinter import *
+from tkinter.ttk import *
+import time
+from tkinter import messagebox
 
 class OpenForms(): 
 
@@ -21,6 +23,7 @@ class OpenForms():
 		window = tk.Tk() #Inicia el Formulario
 		window.title("Lector MOV2000 - VALIDATOR")  #Pone el título
 		window.geometry('400x150') #Dimension el tamaño
+		window.eval('tk::PlaceWindow . center')
 		mensaje = Label(window,text="HACER CLICK EN EL BOTÓN PARA VER MOV2000")
 		mensaje.pack()
 		
@@ -33,6 +36,8 @@ class OpenForms():
 
 		#BOTÓN LEER QUE LLAMA AL MÉTODO CLICKED
 		def clicked():
+	
+					
 			mov2000Plano = "a"
 			listaArchivo = []
 			contadorArchivo = 0
@@ -40,47 +45,45 @@ class OpenForms():
 			listaCompleta = []
 			ruta= ""
 
-#			loading = tk.Tk() #Inicia el Formulario
-#			loading.title("Aguarde y será atendido por Jose")  #Pone el título
-#			loading.geometry('100x50') #Dimension el tamaño
-			window.progressbar = ttk.Progressbar(window, mode="indeterminate")
-			window.progressbar.pack()
-			window.progressbar.start()
-
 			ruta = abrir_archivo() #SE LLAMA EL MÉTODO DONDE SE CONSIGUE LA RUTA
-			#window.destroy()
 
 
-			
+			if ruta != '':  #Si la ruta no está vacía proceso.
+	
+				mov2000Plano = archivos.manejoDeLosArchivosTXT.abrirArchivo(mov2000Plano,ruta)
+				listaArchivo, contadorArchivo = archivos.manejoDeLosArchivosTXT.recorrerArchivoMov2000(mov2000Plano, listaArchivo, contadorArchivo)
 
-			mov2000Plano = archivos.manejoDeLosArchivosTXT.abrirArchivo(mov2000Plano,ruta)
-			print("1")
-			print(time.strftime("%H:%M:%S"))
+				if listaArchivo != 10: #Si el método listaArchivo no dió excepcion entro
+					listaCompleta = archivos.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
+					archivos.manejoDeLosArchivosTXT.cerrarArchivo(mov2000Plano)
 
-			listaArchivo, contadorArchivo = archivos.manejoDeLosArchivosTXT.recorrerArchivoMov2000(mov2000Plano, listaArchivo, contadorArchivo)
-			print("2")			
-			print(time.strftime("%H:%M:%S"))
-			listaCompleta = archivos.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
-			print("3")			
-			print(time.strftime("%H:%M:%S"))
-			archivos.manejoDeLosArchivosTXT.cerrarArchivo(mov2000Plano)
-			print("4")			
-			print(time.strftime("%H:%M:%S"))
-			window.progressbar.destroy()
-			app = wx.App()
-			display = Grilla.MyForm().Show()
+					
+					if listaCompleta != 10: #Si el método listaCompleta no dió excepcion entro
+						window.destroy()
+						import ventanaProgress	
+						app = wx.App()
+						ventanaProgress.start1()
+						display = Grilla.MyForm().Show()
+						ventanaProgress.ventana.destroy()
+						app.MainLoop()
+
+					else:
+						messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+						
+						print("Formato de Archivo erroneo, vuelvo a iterar")
+				else:
+					print("Formato de Archivo erroneo, vuelvo a iterar")
+					messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+
+			else:
+				print("Vuelvo a iterar")
 
 
-			
-			#frame = MainFrame()
-			app.MainLoop()
 			
 		btn = Button(window, text="Leer", command=clicked)
 		btn.pack(expand= "True",fill="x")
 
-
-		
-			
+	
 		window.mainloop()
 		
 		return window
