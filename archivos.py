@@ -54,91 +54,101 @@ class manejoDeLosArchivosTXT():
 			posDataCode = []
 			visaRelease = []
 			tipoTarjeta = []	#campo indTerm
+			campoBCRA =[]
 			saltoLinea = []
-			while listaArchivo[cont] != "":
-				cadena = listaArchivo[cont]
-				cont = cont+1
-				if cadena[0] == "D":
-					numTarMovMes.append(cadena[35:51])
-					establecimiento.append(cadena[51:61])
-					nroAut.append(cadena[111:119])
-					planCuot.append(cadena[127:129])
-					numCuot.append(cadena[129:131])
-					moneda.append(cadena[131:134])
-					importe.append(str(float(cadena[134:149])/100))
-					codPais.append(cadena[153:155])
-					importeOrig.append(cadena[156:170])
-					binTarj.append(cadena[171:177])
-					nombreComercio.append(cadena[321:342])
-					TjCodBanco.append(cadena[396:399])
-					numTarMov2000.append(cadena[439:456])
-					planGob.append(cadena[592])
-					token.append(cadena[535])
-					numToken.append(cadena[536:552])
-					posDataCode.append(cadena[781:794])
-					visaRelease.append(cadena[1059])
-					tipoTarjeta.append(cadena[318])
-					saltoLinea.append(cadena[1053])
-					
+			aux = listaArchivo[0]
 
-				pass
-			pass
-			
-			data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-					'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
-					'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
-					'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta}
-			df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
-					'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
-					'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta'])
-
-		
-			df.to_csv('CSV_MOV2000.csv', sep=';')
-
-
-			#################################
-			#CONTADOR DE TRX X FUNCIONALIDAD#
-			#################################
-
-			def MetodoContador (listaCampo,archivo,Marca,texto,listaTotal,posIni,posFin):
-				i=0
-				j=0
-				cantidad = listaCampo.count(Marca)
-				archivo.write(texto + str(cantidad))
-				archivo.write('\n')
-
-				if posIni != 0:
+			if aux[0] == 'H':	#Si la primera transacción no es un Header no lo leo.
 				
-					while i == 0 and j < len(listaTotal):
-						transaccion = listaTotal[j]
-						if transaccion[posIni:posFin] == Marca:
-							archivo.write('Transaccion Testigo: ')
-							archivo.write(transaccion)
-							i = 1
-						j = j+1
-					#print(cantidad)
+				while listaArchivo[cont] != "":
+					cadena = listaArchivo[cont]
+					cont = cont+1
+					if cadena[0] == "D":
+						numTarMovMes.append(cadena[35:51])
+						establecimiento.append(cadena[51:61])
+						nroAut.append(cadena[111:119])
+						planCuot.append(cadena[127:129])
+						numCuot.append(cadena[129:131])
+						moneda.append(cadena[131:134])
+						importe.append(str(float(cadena[134:149])/100))
+						codPais.append(cadena[153:155])
+						importeOrig.append(cadena[156:170])
+						binTarj.append(cadena[171:177])
+						nombreComercio.append(cadena[321:342])
+						TjCodBanco.append(cadena[396:399])
+						numTarMov2000.append(cadena[439:456])
+						planGob.append(cadena[592])
+						token.append(cadena[535])
+						numToken.append(cadena[536:552])
+						posDataCode.append(cadena[781:794])
+						visaRelease.append(cadena[1059])
+						tipoTarjeta.append(cadena[318])
+						campoBCRA.append(cadena[682:684])
+						saltoLinea.append(cadena[1053])
+						
 
+					pass
+				pass
+				
+				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
+						'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+						'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
+						'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA}
+				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
+						'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
+						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
 
-			logContador = open('logContador.txt', "w") 
-			logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
-			logContador.write('\n') 
-			MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ',listaArchivo,0,0) 
-			MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ',listaArchivo,0,0) 
 			
-			logContador.write('\n') 
-			logContador.write('Desglosados en: ') 
-			logContador.write('\n') 
-			
-			MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,396,399)
-			MetodoContador(planGob,logContador,'7','Plan Gobierno: ',listaArchivo,592,593)
-			MetodoContador(token,logContador,'S','Tokenizada: ',listaArchivo,0,0) 
-			MetodoContador(visaRelease,logContador,'V','Visa Release: ',listaArchivo,1059,1060)
-			
-			logContador.close()
+				df.to_csv('CSV_MOV2000.csv', sep=';')
+
+
+				#################################
+				#CONTADOR DE TRX X FUNCIONALIDAD#
+				#################################
+
+				def MetodoContador (listaCampo,archivo,Marca,texto,listaTotal,posIni,posFin):
+					i=0
+					j=0
+					cantidad = listaCampo.count(Marca)
+					archivo.write(texto + str(cantidad))
+					archivo.write('\n')
+
+					if posIni != 0:
+					
+						while i == 0 and j < len(listaTotal):
+							transaccion = listaTotal[j]
+							if transaccion[posIni:posFin] == Marca:
+								archivo.write('Transaccion Testigo: ')
+								archivo.write(transaccion)
+								i = 1
+							j = j+1
+						#print(cantidad)
+
+
+				logContador = open('logContador.txt', "w") 
+				logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
+				logContador.write('\n') 
+				MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ',listaArchivo,0,0) 
+				MetodoContador(tipoTarjeta,logContador,'1','Tipo Credito: ',listaArchivo,0,0) 
+				
+				logContador.write('\n') 
+				logContador.write('Desglosados en: ') 
+				logContador.write('\n') 
+				
+				MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,396,399)
+				MetodoContador(planGob,logContador,'7','Plan Gobierno: ',listaArchivo,592,593)
+				MetodoContador(token,logContador,'S','Tokenizada: ',listaArchivo,0,0) 
+				MetodoContador(visaRelease,logContador,'V','Visa Release: ',listaArchivo,1059,1060)
+				MetodoContador(visaRelease,logContador,'U1','Campo BCRA UPI: ',listaArchivo,682,684)
+				
+				logContador.close()
 
 
 
-			return listaCompleta
+				return listaCompleta
+
+			else:
+				return 10 #Si no es un Header devuelvo un 10 para regresar una Excepción
 
 		except(Exception,ValueError):
 			print("Formato Erroneo de archivo")
