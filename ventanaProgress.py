@@ -20,10 +20,10 @@ bar.pack(pady=10)
 def start1():
     Total = 100
     descarga = 0
-    velocidad = 1
+    velocidad = 2
     while(descarga<Total):
         time.sleep(0.05)
-        bar['value']+=1
+        bar['value']+=2
         descarga+=velocidad
         percent.set(str(int((descarga/Total)*100))+"%")
         text.set(str(descarga)+"/"+str(Total)+" Carga Completada")

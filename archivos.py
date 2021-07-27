@@ -31,7 +31,6 @@ class manejoDeLosArchivosTXT():
 		except (UnicodeDecodeError,Exception,TypeError):
 			return 10,10
 			
-
 	def subStringLista(listaArchivo, contadorArchivo, listaCompleta):
 		try:
 			cont = 1
@@ -40,6 +39,7 @@ class manejoDeLosArchivosTXT():
 			nroAut =[]
 			planCuot =[]
 			numCuot =[]
+			cuotas = []
 			moneda = []
 			importe = []
 			codPais = []
@@ -69,6 +69,7 @@ class manejoDeLosArchivosTXT():
 						nroAut.append(cadena[111:119])
 						planCuot.append(cadena[127:129])
 						numCuot.append(cadena[129:131])
+						cuotas.append(cadena[263:265])
 						moneda.append(cadena[131:134])
 						importe.append(str(float(cadena[134:149])/100))
 						codPais.append(cadena[153:155])
@@ -91,10 +92,10 @@ class manejoDeLosArchivosTXT():
 				pass
 				
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-						'numCuot': numCuot, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+						'numCuot': numCuot,'cuotas':cuotas, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
 						'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 						'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA}
-				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot', 'moneda',
+				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas' ,'moneda',
 						'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
 						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
 
@@ -153,3 +154,164 @@ class manejoDeLosArchivosTXT():
 		except(Exception,ValueError):
 			print("Formato Erroneo de archivo")
 			return 10
+
+	def subStringListaCasos(listaArchivo, contadorArchivo, listaCompleta):
+			try:
+				cont = 0
+				cont1 = 0
+				numTarMovMes = []
+				establecimiento = []
+				nroAut =[]
+				planCuot =[]
+				numCuot =[]
+				cuotas = []
+				moneda = []
+				importe = []
+				codPais = []
+				importeOrig = []
+				binTarj = []
+				nombreComercio = []
+				TjCodBanco = []
+				numTarMov2000 = []
+				planGob = []
+				token = []
+				numToken = []
+				posDataCode = []
+				visaRelease = []
+				tipoTarjeta = []	#campo indTerm
+				campoBCRA =[]
+				saltoLinea = []
+				aux = listaArchivo[0]
+				listaArchivoCasos = []
+
+				if aux[0] == 'H':	#Si la primera transacción no es un Header no lo leo.
+
+					def MetodoLogTransaccion(loggeador,posicion,contador,lista,nombre):
+							loggeador.write(str(Posiciones)+" "+ nombre)
+							loggeador.write('\n')
+							loggeador.write(lista[contador])
+							loggeador.write('\n')	
+
+					logContador = open('logContadorCasos.txt', "w")
+					logContador.write('Posición CSV:')
+					logContador.write('\n')  
+					listaArchivoCasos.append(aux[0])
+					Posiciones = 0
+					MarcaEmision = 0
+					MarcaplanGob = 0
+					MarcaToken = 0
+					MarcaDebito = 0
+					MarcaCuotas =0
+					MarcaCuotasAce =0
+
+					while listaArchivo[cont1] !="":
+
+						cadena2 = listaArchivo[cont1]
+						cont2 = 0
+
+						if cadena2[0] == "D":
+							#Emision No Prisma
+							if cadena2[396:399] == '998' and MarcaEmision == 0:
+								MarcaEmision = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emisión No Prisma')
+							#Plan Gobierno
+							if cadena2[592] == '7' and MarcaplanGob == 0:
+								MarcaplanGob = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Plan Acelerado')								
+							#Tokenizada
+							if cadena2[535] == 'S' and MarcaToken == 0:
+								MarcaToken = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Tokenización')												
+							#Debito
+							if cadena2[318] == 'E' and MarcaDebito == 0:
+								MarcaDebito = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Debito')
+
+							#Cuota a Cuota
+							if cadena2[127:129] != '00' and MarcaCuotas == 0:
+								MarcaCuotas = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Cuota a Cuota')
+
+							#Cuota Acelerado
+							if cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaCuotasAce == 0:
+								MarcaCuotasAce = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Acelerado')	
+
+						cont1 = cont1 + 1
+					
+					listaArchivoCasos.append("")
+
+					while listaArchivoCasos[cont] != "":
+						cadena = listaArchivoCasos[cont]
+						cont = cont+1
+						if cadena[0] == "D":
+							numTarMovMes.append(cadena[35:51])
+							establecimiento.append(cadena[51:61])
+							nroAut.append(cadena[111:119])
+							planCuot.append(cadena[127:129])
+							numCuot.append(cadena[129:131])
+							cuotas.append(cadena[263:265])
+							moneda.append(cadena[131:134])
+							importe.append(str(float(cadena[134:149])/100))
+							codPais.append(cadena[153:155])
+							importeOrig.append(cadena[156:170])
+							binTarj.append(cadena[171:177])
+							nombreComercio.append(cadena[321:342])
+							TjCodBanco.append(cadena[396:399])
+							numTarMov2000.append(cadena[439:456])
+							planGob.append(cadena[592])
+							token.append(cadena[535])
+							numToken.append(cadena[536:552])
+							posDataCode.append(cadena[781:794])
+							visaRelease.append(cadena[1059])
+							tipoTarjeta.append(cadena[318])
+							campoBCRA.append(cadena[682:684])
+							saltoLinea.append(cadena[1053])
+							
+
+						pass
+					pass
+					
+					data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
+							'numCuot': numCuot,'cuotas': cuotas, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+							'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
+							'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA}
+					df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas', 'moneda',
+							'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
+							'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
+
+				
+					df.to_csv('CSV_MOV2000.csv', sep=';')
+
+
+
+
+
+					logContador.write('\n') 
+					
+					
+					logContador.close()
+
+
+
+					return listaCompleta
+
+				else:
+					return 10 #Si no es un Header devuelvo un 10 para regresar una Excepción
+
+			except(Exception,ValueError):
+				print("Formato Erroneo de archivo")
+				return 10
+
