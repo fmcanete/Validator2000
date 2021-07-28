@@ -111,6 +111,7 @@ class OpenForms():
 						display = Grilla.MyForm().Show()
 						ventanaProgress.ventana.destroy()
 						app.MainLoop()
+						os.remove('CASOS_MOV2000.CSV')
 						os.rename('CSV_MOV2000.CSV', 'CASOS_MOV2000.CSV',)
 
 					else:
@@ -126,9 +127,9 @@ class OpenForms():
 
 
 			
-		btn = Button(window, text="Click Casos Particulares", command=clicked2)
+		btn = Button(window, text="Casos Particulares", command=clicked2)
 		btn.pack(expand= "True",fill="x")
-		btn2 = Button(window, text="Click Lectura Total", command=clicked)
+		btn2 = Button(window, text="Lectura Total", command=clicked)
 		btn2.pack(expand= "True",fill="x")
 
 	

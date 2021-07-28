@@ -40,6 +40,7 @@ class manejoDeLosArchivosTXT():
 			planCuot =[]
 			numCuot =[]
 			cuotas = []
+			AjusteCuota1STD =[]
 			moneda = []
 			importe = []
 			codPais = []
@@ -70,6 +71,7 @@ class manejoDeLosArchivosTXT():
 						planCuot.append(cadena[127:129])
 						numCuot.append(cadena[129:131])
 						cuotas.append(cadena[263:265])
+						AjusteCuota1STD.append(cadena[198:201])
 						moneda.append(cadena[131:134])
 						importe.append(str(float(cadena[134:149])/100))
 						codPais.append(cadena[153:155])
@@ -92,10 +94,10 @@ class manejoDeLosArchivosTXT():
 				pass
 				
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-						'numCuot': numCuot,'cuotas':cuotas, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+						'numCuot': numCuot,'cuotas':cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
 						'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 						'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA}
-				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas' ,'moneda',
+				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas' ,'AjusteCuota1STD','moneda',
 						'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
 						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
 
@@ -165,6 +167,7 @@ class manejoDeLosArchivosTXT():
 				planCuot =[]
 				numCuot =[]
 				cuotas = []
+				AjusteCuota1STD= []
 				moneda = []
 				importe = []
 				codPais = []
@@ -203,6 +206,8 @@ class manejoDeLosArchivosTXT():
 					MarcaDebito = 0
 					MarcaCuotas =0
 					MarcaCuotasAce =0
+					MarcaCuotasAceSinCuot=0
+					MarcaplanGobAceCuota=0
 
 					while listaArchivo[cont1] !="":
 
@@ -215,13 +220,7 @@ class manejoDeLosArchivosTXT():
 								MarcaEmision = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emisión No Prisma')
-							#Plan Gobierno
-							if cadena2[592] == '7' and MarcaplanGob == 0:
-								MarcaplanGob = 1
-								listaArchivoCasos.append(listaArchivo[cont1])
-								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Plan Acelerado')								
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emisión No Prisma')						
 							#Tokenizada
 							if cadena2[535] == 'S' and MarcaToken == 0:
 								MarcaToken = 1
@@ -236,18 +235,32 @@ class manejoDeLosArchivosTXT():
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Debito')
 
 							#Cuota a Cuota
-							if cadena2[127:129] != '00' and MarcaCuotas == 0:
+							if cadena2[127:129] != '00' and cadena2[129:131] == '01'and cadena2[198:201] == 'STD' and MarcaCuotas == 0:
 								MarcaCuotas = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Cuota a Cuota')
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Cuota a Cuota')
 
-							#Cuota Acelerado
-							if cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaCuotasAce == 0:
+							#Cuota Acelerado en Cuotas
+							if cadena2[592] != '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaCuotasAce == 0:
 								MarcaCuotasAce = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Acelerado')	
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Acelerado en Cuotas')	
+							
+							#Cuota Acelerado sin Cuotas
+							if cadena2[263:265] == '  ' and cadena2[263:265] != '00' and MarcaCuotasAceSinCuot == 0:
+								MarcaCuotasAceSinCuot = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Acelerado sin Cuotas')	
+
+							#Plan Gobierno + Plan Acelerado en Cuotas
+							if cadena2[592] == '7' and MarcaplanGobAceCuota == 0 and cadena2[263:265] != '  ' and cadena2[263:265] != '00':
+								MarcaplanGobAceCuota = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Plan Gobierno Acelerado en Cuotas')
 
 						cont1 = cont1 + 1
 					
@@ -263,6 +276,7 @@ class manejoDeLosArchivosTXT():
 							planCuot.append(cadena[127:129])
 							numCuot.append(cadena[129:131])
 							cuotas.append(cadena[263:265])
+							AjusteCuota1STD.append(cadena[198:201])
 							moneda.append(cadena[131:134])
 							importe.append(str(float(cadena[134:149])/100))
 							codPais.append(cadena[153:155])
@@ -285,10 +299,10 @@ class manejoDeLosArchivosTXT():
 					pass
 					
 					data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-							'numCuot': numCuot,'cuotas': cuotas, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+							'numCuot': numCuot,'cuotas': cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
 							'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 							'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA}
-					df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas', 'moneda',
+					df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas','AjusteCuota1STD', 'moneda',
 							'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
 							'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
 

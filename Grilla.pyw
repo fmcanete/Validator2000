@@ -13,7 +13,7 @@ class MyForm(wx.Frame):
 		
 		itera = 0
 		#Se colocan los nombres de las columnas
-		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','cuotas','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta',
+		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','cuotas','AjusteCuota1STD','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta',
 		'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease', 'tipoTarjeta','campoBCRA'] 
 		rango = len(nombres)   #Se toma la dimensión de la lista anterior
 		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
@@ -48,24 +48,24 @@ class MyForm(wx.Frame):
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
 						################################################
 						
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,12,998,wx.YELLOW)   #Emisión no Prisma HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'V',wx.GREEN)   #VISA RELEASE HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'7',wx.BLUE)   #PLAN GOB HEADER
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'E',wx.RED)   #MARCA DE DÉBITO
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'S',wx.Colour( 187, 222, 251 ))   #MARCA TOKENIZADA
-						
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,998,wx.YELLOW)   #Emisión no Prisma HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'V',wx.GREEN)   #VISA RELEASE HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'7',wx.BLUE)   #PLAN GOB HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'E',wx.RED)   #MARCA DE DÉBITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,16,'S',wx.Colour( 187, 222, 251 ))   #MARCA TOKENIZADA
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,6,'STD',wx.Colour( 187, 100, 251 ))   #MARCA CUOTA A CUOTA						
 						
 
 					else:   
 
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,12,998,wx.YELLOW)   #Emisión no Prisma TRX
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,18,'V',wx.GREEN)   #VISA RELEASE TRX
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,14,'7',wx.BLUE)   #PLAN GOB TRX
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'E',wx.RED)   #MARCA DE DÉBITO
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'S',wx.Colour( 187, 222, 251 )) #MARCA TOKENIZADA
-		
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,998,wx.YELLOW)   #Emisión no Prisma TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'V',wx.GREEN)   #VISA RELEASE TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'7',wx.BLUE)   #PLAN GOB TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'E',wx.RED)   #MARCA DE DÉBITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'1',wx.Colour( 147, 75, 123 )) #MARCA DE CRÉDITO
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,16,'S',wx.Colour( 187, 222, 251 )) #MARCA TOKENIZADA
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,6,'STD',wx.Colour( 187, 100, 251 ))   #MARCA CUOTA A CUOTA		
 
 	   
 		
