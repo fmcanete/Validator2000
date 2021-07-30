@@ -1,10 +1,12 @@
 from time import sleep
-import time, re, os, csv
+import time, re, os, csv 
 import pandas as pd
 
 
 
+
 class manejoDeLosArchivosTXT():
+	
 
 	def abrirArchivo(mov2000Plano,ruta):
 		try:
@@ -101,8 +103,8 @@ class manejoDeLosArchivosTXT():
 						'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
 						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA'])
 
-			
-				df.to_csv('CSV_MOV2000.csv', sep=';')
+
+				df.to_csv('CSV_MOV2000.CSV', sep=';')
 
 
 				#################################

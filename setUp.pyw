@@ -62,10 +62,13 @@ class OpenForms():
 						window.destroy()
 						import ventanaProgress	
 						app = wx.App()
-						ventanaProgress.start1()
+						ventana = ventanaProgress.start1()
 						display = Grilla.MyForm().Show()
-						ventanaProgress.ventana.destroy()
+						ventana.destroy()						
 						app.MainLoop()
+						timestamp = time.strftime('%Y%m%d%H%M%S')
+						os.rename('CSV_MOV2000.CSV', 'TOTAL_MOV2000_'+timestamp+'.CSV')
+						OpenForms.abrirFormulario()
 
 					else:
 						messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
@@ -107,12 +110,13 @@ class OpenForms():
 						window.destroy()
 						import ventanaProgress	
 						app = wx.App()
-						ventanaProgress.start1()
+						ventana = ventanaProgress.start1()
 						display = Grilla.MyForm().Show()
-						ventanaProgress.ventana.destroy()
+						ventana.destroy()
 						app.MainLoop()
-						os.remove('CASOS_MOV2000.CSV')
-						os.rename('CSV_MOV2000.CSV', 'CASOS_MOV2000.CSV',)
+						timestamp = time.strftime('%Y%H%M%S')
+						os.rename('CSV_MOV2000.CSV', 'CASOS_MOV2000_'+timestamp+'.CSV')
+						OpenForms.abrirFormulario()
 
 					else:
 						messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")

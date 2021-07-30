@@ -3,6 +3,7 @@ from tkinter import *
 import wx
 import wx.grid as gridlib
 import pandas as pd
+import archivos
 #####################################################################
 class MyForm(wx.Frame):
 	
@@ -10,7 +11,7 @@ class MyForm(wx.Frame):
 		#Se inicializa el Frame dónde va el título y el tamaño de la ventana
 		wx.Frame.__init__(self, parent=None, title="Lector MOV2000 - VALIDATOR",size=(900,300))
 		panel = wx.Panel(self)
-		
+
 		itera = 0
 		#Se colocan los nombres de las columnas
 		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','cuotas','AjusteCuota1STD','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta',
