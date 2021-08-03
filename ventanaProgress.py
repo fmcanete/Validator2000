@@ -18,6 +18,7 @@ def start1():
     ventana.geometry('300x100')
     bar = Progressbar(ventana,orient=HORIZONTAL,length=300)
     ventana.eval('tk::PlaceWindow . center')
+    ventana.iconbitmap('prisma.ico')
     bar.pack(pady=10)
     percent = StringVar()
     text = StringVar()

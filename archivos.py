@@ -10,7 +10,7 @@ class manejoDeLosArchivosTXT():
 
 	def abrirArchivo(mov2000Plano,ruta):
 		try:
-			mov2000Plano = open(ruta, "r")
+			mov2000Plano = open(ruta, "r",encoding = 'cp850')
 			#open("MOV2000.txt", "r")
 			return mov2000Plano
 		except Exception:
@@ -28,9 +28,11 @@ class manejoDeLosArchivosTXT():
 				contadorArchivo = contadorArchivo + 1
 			
 			listaArchivo.append("")					#Se le agrega un espacio vacío a la lista para el WHILE siguiente del parseo
-			
+
 			return listaArchivo, contadorArchivo
-		except (UnicodeDecodeError,Exception,TypeError):
+		except (MemoryError):
+			return 11,11
+		except (UnicodeDecodeError,TypeError,Exception):
 			return 10,10
 			
 	def subStringLista(listaArchivo, contadorArchivo, listaCompleta):
@@ -140,14 +142,16 @@ class manejoDeLosArchivosTXT():
 				logContador.write('Desglosados en: ') 
 				logContador.write('\n') 
 				
-				MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,396,399)
-				MetodoContador(planGob,logContador,'7','Plan Gobierno: ',listaArchivo,592,593)
+				#Metodo de Ejemplo, se coloca la lista del campo, el archivo del log, campo, Mensaje, listaArchivo y la posición inicial/final del campo
+
+				#MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,396,399)
+				MetodoContador(TjCodBanco,logContador,'998','Tipo Emision no Prisma: ',listaArchivo,0,0)
+				MetodoContador(planGob,logContador,'7','Plan Gobierno: ',listaArchivo,0,0)
 				MetodoContador(token,logContador,'S','Tokenizada: ',listaArchivo,0,0) 
-				MetodoContador(visaRelease,logContador,'V','Visa Release: ',listaArchivo,1059,1060)
-				MetodoContador(visaRelease,logContador,'U1','Campo BCRA UPI: ',listaArchivo,682,684)
+				MetodoContador(visaRelease,logContador,'V','Visa Release: ',listaArchivo,0,0)
+				MetodoContador(visaRelease,logContador,'U1','Campo BCRA UPI: ',listaArchivo,0,0)
 				
 				logContador.close()
-
 
 
 				return listaCompleta
@@ -325,6 +329,7 @@ class manejoDeLosArchivosTXT():
 					return listaCompleta
 
 				else:
+
 					return 10 #Si no es un Header devuelvo un 10 para regresar una Excepción
 
 			except(Exception,ValueError):
