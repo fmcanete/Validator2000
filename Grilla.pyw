@@ -11,12 +11,12 @@ class MyForm(wx.Frame):
 		#Se inicializa el Frame dónde va el título y el tamaño de la ventana
 		wx.Frame.__init__(self, parent=None, title="Lector MOV2000 - VALIDATOR",size=(900,300))
 		panel = wx.Panel(self)
-		self.SetIcon(wx.Icon("prisma.ico"))
+		self.SetIcon(wx.Icon("validator.ico"))
 
 		itera = 0
 		#Se colocan los nombres de las columnas
 		nombres =['Numtar','NumEst','NumAut','PlanCuot','NumCuot','cuotas','AjusteCuota1STD','Moneda','Importe','CodPais','ImporteOrig','BinTarjeta',
-		'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease', 'tipoTarjeta','campoBCRA'] 
+		'NombreComercio','BancoEstab','NumtarMov2000','planGob','Token','NumToken','PosDataCode','VisaRelease', 'tipoTarjeta','campoBCRA','diasPago'] 
 		rango = len(nombres)   #Se toma la dimensión de la lista anterior
 		LecturaCamposBasicos = pd.read_csv('CSV_MOV2000.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
 		CantidadTranasacciones = len(LecturaCamposBasicos) #Se obtiene la cantidad de transacciones
@@ -29,7 +29,7 @@ class MyForm(wx.Frame):
 			if iteram != posicion:
 				grilla.SetCellValue(im+1,iteram, str(jm[iteram])) #Va llenando la grilla hasta que encuentra 1 trx a VALIDAR (ENP)
 			else:
-				if jm[iteram] == condicion: #CUANDO LA ENCUENTRA
+				if str(jm[iteram]) == str(condicion): #CUANDO LA ENCUENTRA
 					grilla.SetCellValue(im+1,iteram, str(jm[iteram])) #LLENA ACA ENP
 					grilla.SetCellBackgroundColour(im+1,iteram,colores) #PONE COLOR ENP
 				else:

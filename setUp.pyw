@@ -24,7 +24,7 @@ class OpenForms():
 		window.title("Lector MOV2000 - VALIDATOR")  #Pone el título
 		window.geometry('400x150') #Dimension el tamaño
 		window.eval('tk::PlaceWindow . center')
-		window.iconbitmap('prisma.ico')
+		window.iconbitmap('validator.ico')
 		mensaje = Label(window,text="SELECCIONE OPCION PARA MOV2000")
 		mensaje.pack()
 		
