@@ -8,5 +8,8 @@ import pandas as pd
 import setUp,archivos
 
 
-window = setUp.OpenForms.abrirFormulario
-setUp.OpenForms.abrirFormulario()
+def Inicializar(parametro):
+    parametro.OpenForms.abrirFormulario()
+
+Inicializar(setUp)
+
