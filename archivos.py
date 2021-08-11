@@ -213,7 +213,9 @@ class manejoDeLosArchivosTXT():
 					MarcaEmisionSinPG = 0
 					MarcaEmisionCuotaACuota = 0
 					MarcaplanGob = 0
-					MarcaToken = 0
+					MarcaEmisionNPDebito = 0
+					MarcaTokenCredito = 0
+					MarcaTokenDebito = 0
 					MarcaDebito = 0
 					MarcaCuotas =0
 					MarcaCuotasAce =0
@@ -228,33 +230,47 @@ class manejoDeLosArchivosTXT():
 						cont2 = 0
 
 						if cadena2[0] == "D":
-							#Emision No Prisma Cuotas Plan Gobierno
-							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] == '7' and cadena2[263:265] != '  ' and MarcaEmisionPG == 0:
+							#Credito Emision No Prisma Cuotas Plan Gobierno
+							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] == '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and cadena2[318] == '1'and MarcaEmisionPG == 0:
 								MarcaEmisionPG = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emision NO Prisma - Cuotas Plan Gobierno')	
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Emision NO Prisma - Cuotas Plan Gobierno')	
 							
-							#Emision No Prisma Cuotas sin Plan Gobierno
-							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] != '7' and cadena2[263:265] != '  ' and MarcaEmisionSinPG == 0:
+							#Credito Emision No Prisma Cuotas sin Plan Gobierno
+							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] != '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and cadena2[318] == '1' and MarcaEmisionSinPG == 0:
 								MarcaEmisionSinPG = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emision NO Prisma - Cuotas sin Plan Gobierno')	
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Emision NO Prisma - Cuotas sin Plan Gobierno')	
 							
-							#Emision No Prisma Cuota a Cuota
-							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] != '7' and cadena2[263:265] != '  ' and MarcaEmisionCuotaACuota == 0 and cadena2[127:129] != '00' and cadena2[129:131] == '01'and cadena2[198:201] == 'STD':
+							#Credito Emision No Prisma Cuota a Cuota
+							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900' and cadena2[592] != '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaEmisionCuotaACuota == 0 and cadena2[127:129] != '00' and cadena2[129:131] == '01'and cadena2[198:201] == 'STD' and cadena2[318] == '1':
 								MarcaEmisionCuotaACuota = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emision NO Prisma - Cuota a Cuota')													
-							
-							#Tokenizada
-							if cadena2[535] == 'S' and MarcaToken == 0:
-								MarcaToken = 1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Emision NO Prisma - Cuota a Cuota')													
+
+							#Debito Emision No Prisma
+							if cadena2[396:399] == '998' and cadena2[316] == '8'and cadena2[670] == 'N' and cadena2[593:596] == '900'  and cadena2[318] == 'E'and MarcaEmisionNPDebito == 0:
+								MarcaEmisionNPDebito = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Tokenización')												
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Debito - Emision NO Prisma')	
+
+							#Tokenizada Debito
+							if cadena2[535] == 'S' and MarcaTokenDebito == 0 and cadena2[318] == 'E' and cadena2[536] != ' ':
+								MarcaTokenDebito = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Debito - Tokenización')	
+
+							#Tokenizada Credito
+							if cadena2[535] == 'S' and MarcaTokenCredito == 0 and cadena2[318] == '1' and cadena2[536] != ' ':
+								MarcaTokenCredito = 1
+								listaArchivoCasos.append(listaArchivo[cont1])
+								Posiciones=Posiciones+1
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Tokenización')												
 							
 							#Debito Online
 							if cadena2[318] == 'E' and MarcaDebito == 0:
@@ -268,35 +284,35 @@ class manejoDeLosArchivosTXT():
 								MarcaCuotas = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emisión Prisma - Cuota a Cuota Online')
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Emisión Prisma - Cuota a Cuota Online')
 
 							#Cuota Acelerado en Cuotas
-							if cadena2[592] != '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaCuotasAce == 0:
+							if cadena2[592] != '7' and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and MarcaCuotasAce == 0 and cadena2[318] == '1':
 								MarcaCuotasAce = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Emisión Prisma  - Acelerado en Cuotas')	
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Emisión Prisma  - Acelerado en Cuotas')	
 							
 							#Acelerado sin Cuotas
-							if cadena2[263:265] == '  ' and cadena2[263:265] != '00' and MarcaCuotasAceSinCuot == 0:
+							if cadena2[263:265] == '  ' and cadena2[263:265] != '00' and MarcaCuotasAceSinCuot == 0 and cadena2[318] == '1':
 								MarcaCuotasAceSinCuot = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Acelerado sin Cuotas')	
 
 							#Plan Gobierno + Plan Acelerado en Cuotas
-							if cadena2[592] == '7' and MarcaplanGobAceCuota == 0 and cadena2[263:265] != '  ' and cadena2[263:265] != '00':
+							if cadena2[592] == '7' and MarcaplanGobAceCuota == 0 and cadena2[263:265] != '  ' and cadena2[263:265] != '00' and cadena2[318] == '1':
 								MarcaplanGobAceCuota = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Plan Gobierno Acelerado en Cuotas')
 							
 							#Internacional (Validar si hay internacionales en cuotas)
-							if MarcaplanInternacional == 0 and cadena2[396:399] != '999' and cadena2[316] == '4':
+							if MarcaplanInternacional == 0 and cadena2[396:399] == '999' and cadena2[316] == '4' and cadena2[318] == '1':
 								MarcaplanInternacional = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
-								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Transaccion Internacional')		
+								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Credito - Transaccion Internacional')		
 							
 							#Propina (Validar si hay internacionales en cuotas)
 							if MarcaPropina == 0 and cadena2[887] == 'P':

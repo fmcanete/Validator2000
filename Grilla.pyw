@@ -50,7 +50,8 @@ class MyForm(wx.Frame):
 						myGrid.SetCellBackgroundColour(i,itera,wx.BLACK)
 						################################################
 						
-						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,998,wx.YELLOW)   #Emisión no Prisma HEADER
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,998,wx.Colour( 170, 150, 200 ))   #Internacional
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,999,wx.YELLOW)   #Emisión no Prisma HEADER						
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'V',wx.GREEN)   #VISA RELEASE HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'7',wx.BLUE)   #PLAN GOB HEADER
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'E',wx.RED)   #MARCA DE DÉBITO
@@ -62,6 +63,7 @@ class MyForm(wx.Frame):
 					else:   
 
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,998,wx.YELLOW)   #Emisión no Prisma TRX
+						rellenaColumnaCondPositiva(myGrid,i,j,itera,13,999,wx.Colour( 170, 150, 200 ))   #Internacional						
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,19,'V',wx.GREEN)   #VISA RELEASE TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,15,'7',wx.BLUE)   #PLAN GOB TRX
 						rellenaColumnaCondPositiva(myGrid,i,j,itera,20,'E',wx.RED)   #MARCA DE DÉBITO
