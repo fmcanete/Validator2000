@@ -299,12 +299,12 @@ class manejoDeLosArchivosTXT():
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Transaccion Internacional')		
 							
 							#Propina (Validar si hay internacionales en cuotas)
-							if MarcaPropina == 0 and cadena2[887] != 'P':
+							if MarcaPropina == 0 and cadena2[887] == 'P':
 								MarcaPropina = 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Marca Propina')
-								cont = cont + 1
+								cont1 = cont1 + 1
 								listaArchivoCasos.append(listaArchivo[cont1])
 								Posiciones=Posiciones+1
 								MetodoLogTransaccion(logContador,Posiciones,cont1,listaArchivo,'Marca Consumo')															
