@@ -11,7 +11,7 @@ class MyForm(wx.Frame):
 		#Se inicializa el Frame dónde va el título y el tamaño de la ventana
 		wx.Frame.__init__(self, parent=None, title="Lector MOV2000 - VALIDATOR",size=(900,300))
 		panel = wx.Panel(self)
-		self.SetIcon(wx.Icon("validator.ico"))
+		self.SetIcon(wx.Icon("validator_icono.ico"))
 
 		itera = 0
 		#Se colocan los nombres de las columnas
