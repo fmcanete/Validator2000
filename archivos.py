@@ -49,7 +49,7 @@ class manejoDeLosArchivosTXT():
 			importe = []
 			codPais = []
 			importeOrig = []
-			binTarj = []
+			binBancoPagador = []
 			nombreComercio = []
 			TjCodBanco = []
 			numTarMov2000 = []
@@ -81,7 +81,7 @@ class manejoDeLosArchivosTXT():
 						importe.append(str(float(cadena[134:149])/100))
 						codPais.append(cadena[153:155])
 						importeOrig.append(cadena[156:170])
-						binTarj.append(cadena[171:177])
+						binBancoPagador.append(cadena[171:177])
 						nombreComercio.append(cadena[321:342])
 						TjCodBanco.append(cadena[396:399])
 						numTarMov2000.append(cadena[439:456])
@@ -100,11 +100,11 @@ class manejoDeLosArchivosTXT():
 				pass
 				
 				data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-						'numCuot': numCuot,'cuotas':cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+						'numCuot': numCuot,'cuotas':cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binBancoPagador':binBancoPagador,
 						'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 						'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA,'diasPago':diasPago}
 				df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas' ,'AjusteCuota1STD','moneda',
-						'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
+						'importe', 'codPais','importeOrig', 'binBancoPagador', 'nombreComercio', 'TjCodBanco',
 						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA','diasPago'])
 
 
@@ -180,7 +180,7 @@ class manejoDeLosArchivosTXT():
 				importe = []
 				codPais = []
 				importeOrig = []
-				binTarj = []
+				binBancoPagador = []
 				nombreComercio = []
 				TjCodBanco = []
 				numTarMov2000 = []
@@ -344,7 +344,7 @@ class manejoDeLosArchivosTXT():
 							importe.append(str(float(cadena[134:149])/100))
 							codPais.append(cadena[153:155])
 							importeOrig.append(cadena[156:170])
-							binTarj.append(cadena[171:177])
+							binBancoPagador.append(cadena[171:177])
 							nombreComercio.append(cadena[321:342])
 							TjCodBanco.append(cadena[396:399])
 							numTarMov2000.append(cadena[439:456])
@@ -363,11 +363,11 @@ class manejoDeLosArchivosTXT():
 					pass
 					
 					data = {'numTarMovMes': numTarMovMes, 'establecimiento':establecimiento, 'nroAut': nroAut, 'planCuot': planCuot,
-							'numCuot': numCuot,'cuotas': cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binTarj':binTarj,
+							'numCuot': numCuot,'cuotas': cuotas,'AjusteCuota1STD':AjusteCuota1STD, 'moneda': moneda, 'importe': importe, 'codPais': codPais, 'importeOrig': importeOrig, 'binBancoPagador':binBancoPagador,
 							'nombreComercio': nombreComercio, 'TjCodBanco': TjCodBanco, 'numTarMov2000': numTarMov2000, 'planGob':planGob,'token':token,'numToken':numToken,
 							'posDataCode':posDataCode, 'visaRelease':visaRelease, 'tipoTarjeta': tipoTarjeta,'campoBCRA':campoBCRA,'diasPago':diasPago}
 					df = pd.DataFrame(data, columns = ['numTarMovMes', 'establecimiento', 'nroAut','planCuot','numCuot','cuotas','AjusteCuota1STD', 'moneda',
-							'importe', 'codPais','importeOrig', 'binTarj', 'nombreComercio', 'TjCodBanco',
+							'importe', 'codPais','importeOrig', 'binBancoPagador', 'nombreComercio', 'TjCodBanco',
 							'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA','diasPago'])
 
 				
