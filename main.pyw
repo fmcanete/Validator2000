@@ -1,11 +1,12 @@
- 
-# #Importar las librerias
+ # #Importar las librerias
 import tkinter as tk
 from tkinter import *
 import pandas as pd
-
 # IMPORTAR LOS ARCHIVOS
-import setUp,archivos
+import vicap 
+import setUp
+from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv
+
 
 ########################### Imagen Fantastica ###########################
 window = Tk()  
@@ -21,7 +22,6 @@ canvas.pack()
 canvas.config(width="400", height="400") 
 window.after(3000, window.destroy)
 window.mainloop()
-
 ##########################################################################
 
 
