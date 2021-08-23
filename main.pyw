@@ -34,7 +34,7 @@ def Inicializar(parametro):
 def formularioGeneral():
     VentanaSELECCION = tk.Tk() #Inicia el Formulario
     VentanaSELECCION.title("VALIDATOR")  #Pone el título
-    VentanaSELECCION.geometry('380x185') #Dimension el tamaño
+    VentanaSELECCION.geometry('300x185') #Dimension el tamaño
     VentanaSELECCION.eval('tk::PlaceWindow . center')
     VentanaSELECCION.iconbitmap('validator_icono.ico')
     mensaje = Label(VentanaSELECCION,text="SELECCIONE ADQUIRENCIA")
@@ -53,7 +53,7 @@ def formularioGeneral():
     def clickedMulti():
         #VentanaSELECCION.destroy()
         #Inicializar(setUp_MASTER)
-        messagebox.showinfo(message="¡En construcción!", title="Error")
+        messagebox.showinfo(message="¡En construcción!", title="En construccion")
         #formularioGeneral()
 
 #####################LOGO DE ADQUIRENCIAS###################################################
@@ -72,13 +72,14 @@ def formularioGeneral():
 
 ############################################################################################
 
-    BOTON_VICAP = Button(VentanaSELECCION,image=visaimg, bg = "grey",command=clickedVicap)
-    BOTON_VICAP.pack(expand= "True",fill="x")
 
-    BOTON_MCAP = Button(VentanaSELECCION,image=masterimg,bg = "grey",command=clickedMcap)
+    BOTON_MCAP = Button(VentanaSELECCION,image=masterimg,bg = "gold",command=clickedMcap)
     BOTON_MCAP.pack(expand= "True",fill="x")
 
-    BOTON_MULTI = Button(VentanaSELECCION,image=multiimg,bg = "grey",command=clickedMulti)
+    BOTON_VICAP = Button(VentanaSELECCION,image=visaimg, bg = "royalblue4",command=clickedVicap)
+    BOTON_VICAP.pack(expand= "True",fill="x")
+
+    BOTON_MULTI = Button(VentanaSELECCION,image=multiimg,bg = "royalblue2",command=clickedMulti)
     BOTON_MULTI.pack(expand= "True",fill="x")
 
     VentanaSELECCION.mainloop()

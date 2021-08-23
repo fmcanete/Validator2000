@@ -11,7 +11,7 @@ import wx.grid as gridlib
 from timeit import timeit
 #import archivos
 from mcap import *
-from mcap import archivos, Grilla
+from mcap import archivos, Grilla,conectionMCAP
 
 class OpenForms(): 
 
@@ -30,7 +30,6 @@ class OpenForms():
                 title = "Seleccione archivo",filetypes = (("txt files","*.txt"),
                 ("all files","*.*")))
 			return(archivo_abierto)
-
 		
 		def clickedTotal(): #casos totales
 						
@@ -66,7 +65,7 @@ class OpenForms():
 								ventana.destroy()						
 								app.MainLoop()
 								timestamp = time.strftime('%Y%m%d%H%M%S')
-								os.rename('CSV_MOV2000.CSV', 'mcap\\MASTER_TOTAL_MOV2000_'+timestamp+'.CSV')
+								os.rename('CSV_MOV2000.CSV', 'mcap\\EvidenciasMOV2000\\MASTER_TOTAL_MOV2000_'+timestamp+'.CSV')
 								OpenForms.abrirFormulario()
 							else:
 								messagebox.showinfo(message="¡Archivo muy grande para mostrar en grilla!", title="Error")
@@ -119,7 +118,7 @@ class OpenForms():
 						ventana.destroy()
 						app.MainLoop()
 						timestamp = time.strftime('%Y%H%M%S')
-						os.rename('CSV_MOV2000.CSV', 'mcap\\MASTER_CASOS_MOV2000_'+timestamp+'.CSV')
+						os.rename('CSV_MOV2000.CSV', 'mcap\\EvidenciasMOV2000\\MASTER_CASOS_MOV2000_'+timestamp+'.CSV')
 						OpenForms.abrirFormulario()
 
 					else:
@@ -133,10 +132,16 @@ class OpenForms():
 			else:
 				print("Vuelvo a iterar")
 		
+		def clickedBDD():
+			llamada = conectionMCAP.llamado()
+		
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
 		btn2 = Button(window, text="Lectura Total  - MOV2000", command=clickedTotal)
 		btn2.pack(expand= "True",fill="x")
+		
+		btn3 = Button(window, text="Subida BDD", command=clickedBDD)
+		btn3.pack(expand= "True",fill="x")
 	
 		window.mainloop()
 		

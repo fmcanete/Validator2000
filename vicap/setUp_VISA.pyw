@@ -66,7 +66,7 @@ class OpenForms():
 								ventana.destroy()						
 								app.MainLoop()
 								timestamp = time.strftime('%Y%m%d%H%M%S')
-								os.rename('CSV_MOV2000.CSV', 'vicap\\VISA_TOTAL_MOV2000_'+timestamp+'.CSV')
+								os.rename('CSV_MOV2000.CSV', 'vicap\\EvidenciasMOV2000\\VISA_TOTAL_MOV2000_'+timestamp+'.CSV')
 								OpenForms.abrirFormulario()
 							else:
 								messagebox.showinfo(message="¡Archivo muy grande para mostrar en grilla!", title="Error")
@@ -119,7 +119,7 @@ class OpenForms():
 						ventana.destroy()
 						app.MainLoop()
 						timestamp = time.strftime('%Y%H%M%S')
-						os.rename('CSV_MOV2000.CSV', 'vicap\\VISA_CASOS_MOV2000_'+timestamp+'.CSV')
+						os.rename('CSV_MOV2000.CSV', 'vicap\\EvidenciasMOV2000\\VISA_CASOS_MOV2000_'+timestamp+'.CSV')
 						OpenForms.abrirFormulario()
 
 					else:
@@ -167,7 +167,7 @@ class OpenForms():
 								ventana.destroy()						
 								app.MainLoop()
 								timestamp = time.strftime('%Y%m%d%H%M%S')
-								os.rename('CSV_MKPRIV.CSV', 'vicap\\TOTALMKPRIV_'+timestamp+'.CSV')
+								os.rename('CSV_MKPRIV.CSV', 'vicap\\EvidenciasMKPRIV\\TOTALMKPRIV_'+timestamp+'.CSV')
 								OpenForms.abrirFormulario()
 							else:
 								messagebox.showinfo(message="¡Archivo muy grande para mostrar en grilla!", title="Error")
@@ -190,9 +190,10 @@ class OpenForms():
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
 		btn2 = Button(window, text="Lectura Total  - MOV2000", command=clickedTotal)
-		btn2.pack(expand= "True",fill="x")
+		btn2.pack(expand= "True",fill="x")		
 		btn3 = Button(window, text="Marcas Privadas", command=clickedMkpriv)
 		btn3.pack(expand= "True",fill="x")
+
 
 	
 		window.mainloop()
