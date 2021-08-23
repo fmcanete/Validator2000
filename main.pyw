@@ -1,11 +1,13 @@
  # #Importar las librerias
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
+from PIL import Image,ImageTk
 import pandas as pd
 # IMPORTAR LOS ARCHIVOS
 import vicap 
-import setUp
-from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv
+from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,setUp_VISA
+from mcap import archivos, Grilla,setUp_MASTER
 
 
 ########################### Imagen Fantastica ###########################
@@ -28,5 +30,59 @@ window.mainloop()
 def Inicializar(parametro):
     parametro.OpenForms.abrirFormulario()
 
-Inicializar(setUp)
 
+def formularioGeneral():
+    VentanaSELECCION = tk.Tk() #Inicia el Formulario
+    VentanaSELECCION.title("VALIDATOR")  #Pone el título
+    VentanaSELECCION.geometry('300x185') #Dimension el tamaño
+    VentanaSELECCION.eval('tk::PlaceWindow . center')
+    VentanaSELECCION.iconbitmap('validator_icono.ico')
+    mensaje = Label(VentanaSELECCION,text="SELECCIONE ADQUIRENCIA")
+    mensaje.pack()
+
+    def clickedVicap():
+        VentanaSELECCION.destroy()
+        Inicializar(setUp_VISA)
+        formularioGeneral()
+    
+    def clickedMcap():
+        VentanaSELECCION.destroy()
+        Inicializar(setUp_MASTER)
+        formularioGeneral()
+
+    def clickedMulti():
+        #VentanaSELECCION.destroy()
+        #Inicializar(setUp_MASTER)
+        messagebox.showinfo(message="¡En construcción!", title="En construccion")
+        #formularioGeneral()
+
+#####################LOGO DE ADQUIRENCIAS###################################################
+   
+    visaimg = Image.open('img\\Visa.jpg')
+    visaimg = visaimg.resize((100, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
+    visaimg = ImageTk.PhotoImage(visaimg)
+
+    masterimg = Image.open('img\\MasterCard.png')
+    masterimg = masterimg.resize((100, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
+    masterimg = ImageTk.PhotoImage(masterimg)
+
+    multiimg = Image.open('img\\Multi.png')
+    multiimg = multiimg.resize((130, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
+    multiimg = ImageTk.PhotoImage(multiimg)
+
+############################################################################################
+
+
+    BOTON_MCAP = Button(VentanaSELECCION,image=masterimg,bg = "gold",command=clickedMcap)
+    BOTON_MCAP.pack(expand= "True",fill="x")
+
+    BOTON_VICAP = Button(VentanaSELECCION,image=visaimg, bg = "royalblue4",command=clickedVicap)
+    BOTON_VICAP.pack(expand= "True",fill="x")
+
+    BOTON_MULTI = Button(VentanaSELECCION,image=multiimg,bg = "royalblue2",command=clickedMulti)
+    BOTON_MULTI.pack(expand= "True",fill="x")
+
+    VentanaSELECCION.mainloop()
+
+
+formularioGeneral()
