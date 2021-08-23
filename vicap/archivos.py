@@ -131,7 +131,7 @@ class manejoDeLosArchivosTXT():
 						#print(cantidad)
 
 
-				logContador = open('logContador.txt', "w") 
+				logContador = open('logContadorVISA.txt', "w") 
 				logContador.write('Total de transacciones: ' + str(len(numTarMovMes))) 
 				logContador.write('\n') 
 				MetodoContador(tipoTarjeta,logContador,'E','Tipo Debito: ',listaArchivo,0,0) 
@@ -202,7 +202,7 @@ class manejoDeLosArchivosTXT():
 							loggeador.write(lista[contador])
 							loggeador.write('\n')	
 
-					logContador = open('logContadorCasos.txt', "w")
+					logContador = open('logContadorCasosVISA.txt', "w")
 					logContador.write('Posición CSV:')
 					logContador.write('\n')  
 					listaArchivoCasos.append(aux[0])
