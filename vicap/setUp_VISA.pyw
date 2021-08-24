@@ -11,7 +11,8 @@ import wx.grid as gridlib
 from timeit import timeit
 #import archivos
 from vicap import *
-from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,GrillaMOVRECHAZOS,archivoMOVRECHAZOS
+from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,GrillaMOVRECHAZOS,archivoMOVRECHAZOS,archivoM240, GrillaM240
+
 
 class OpenForms(): 
 
@@ -31,7 +32,6 @@ class OpenForms():
                 ("all files","*.*")))
 			return(archivo_abierto)
 
-		
 		def clickedTotal(): #casos totales
 						
 			mov2000Plano = "a"
@@ -186,7 +186,59 @@ class OpenForms():
 					messagebox.showinfo(message="¡Error en memoria, archivo muy grande!", title="Error")
 			else:
 				print("Vuelvo a iterar")	#esto es cuando se abre y se cierra la ventana con cancelar				
+			
+		def clickedM240(): #casos M240
+			m240Plano = "a"
+			listaArchivo = []
+			contadorArchivo = 0
+			CSV_M240 = "a"
+			listaCompleta = []
+			ruta= ""
 
+			ruta = abrir_archivo() #SE LLAMA EL MÉTODO DONDE SE CONSIGUE LA RUTA
+
+			if ruta != '':  #Si la ruta no está vacía proceso.
+	
+				m240Plano = archivoM240.manejoDeLosArchivosTXT.abrirArchivo(m240Plano,ruta)
+				listaArchivo, contadorArchivo = archivoM240.manejoDeLosArchivosTXT.recorrerArchivoM240(m240Plano, listaArchivo, contadorArchivo)
+
+				if listaArchivo !=11: #Si el método listaArchivo no dió excepción de memoria entro
+
+					if listaArchivo != 10: #Si el método listaArchivo no dió otra excepcion entro
+						listaCompleta = archivoM240.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
+						archivoM240.manejoDeLosArchivosTXT.cerrarArchivo(m240Plano)
+
+						if listaCompleta != 10: #Si el método listaCompleta no dió excepcion entro
+							
+							if len(listaArchivo) < 100000: #Si el MOV2000 es muy grande no carga la grilla
+								window.destroy()
+								import ventanaProgress	
+								app = wx.App()
+								print("Tamaño Lista: ", len(listaArchivo))
+								ventana = ventanaProgress.start1()
+								display = GrillaM240.MyForm().Show()
+								ventana.destroy()						
+								app.MainLoop()
+								timestamp = time.strftime('%Y%m%d%H%M%S')
+								os.rename('CSV_M240.CSV', 'vicap\\EvidenciasM240\\TOTALM240_'+timestamp+'.CSV')
+								OpenForms.abrirFormulario()
+							else:
+								messagebox.showinfo(message="¡Archivo muy grande para mostrar en grilla!", title="Error")
+								print("Formato de muy grande vuelvo a iterar")
+
+
+						else:
+							messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+							print("Formato de Archivo erroneo, vuelvo a iterar")
+					else:
+						print("Formato de Archivo erroneo, vuelvo a iterar")
+						messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+
+				else:
+					print("Formato de Archivo erroneo, vuelvo a iterar")
+					messagebox.showinfo(message="¡Error en memoria, archivo muy grande!", title="Error")
+			else:
+				print("Vuelvo a iterar")	#esto es cuando se abre y se cierra la ventana con cancelar		
 
 		def clickedMOVRECHAZOS(): #casos MOVRECHAZOS
 						
@@ -242,12 +294,15 @@ class OpenForms():
 			else:
 				print("Vuelvo a iterar")	#esto es cuando se abre y se cierra la ventana con cancelar		
 
+
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
 		btn2 = Button(window, text="Lectura Total  - MOV2000", command=clickedTotal)
 		btn2.pack(expand= "True",fill="x")		
 		btn3 = Button(window, text="Marcas Privadas", command=clickedMkpriv)
 		btn3.pack(expand= "True",fill="x")
+		btn4 = Button(window, text="M240", command=clickedM240)
+		btn4.pack(expand= "True",fill="x")
 		btn5 = Button(window, text="Movrechazos", command=clickedMOVRECHAZOS)
 		btn5.pack(expand= "True",fill="x")
 
