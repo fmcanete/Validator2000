@@ -1,0 +1,9 @@
+VER LIBRERIAS:
+pip list
+
+ARMAR LIBRERIAS:
+
+freeze > requirements.txt
+
+INSTALAR LIBRERIAS:
+pip install -r requirements.txt

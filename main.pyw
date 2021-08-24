@@ -6,11 +6,11 @@ from PIL import Image,ImageTk
 import pandas as pd
 # IMPORTAR LOS ARCHIVOS
 import vicap 
-from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,setUp_VISA
+from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,setUp_VISA,archivoMOVRECHAZOS,GrillaMOVRECHAZOS
 from mcap import archivos, Grilla,setUp_MASTER
 
 
-########################### Imagen Fantastica ###########################
+########################### Imagen Fantastica ################################################
 window = Tk()  
 window.overrideredirect(True)
 window.wm_attributes("-topmost", True)
@@ -24,7 +24,7 @@ canvas.pack()
 canvas.config(width="400", height="400") 
 window.after(3000, window.destroy)
 window.mainloop()
-##########################################################################
+###############################################################################################
 
 
 def Inicializar(parametro):
@@ -34,10 +34,13 @@ def Inicializar(parametro):
 def formularioGeneral():
     VentanaSELECCION = tk.Tk() #Inicia el Formulario
     VentanaSELECCION.title("VALIDATOR")  #Pone el título
-    VentanaSELECCION.geometry('300x185') #Dimension el tamaño
+    VentanaSELECCION.geometry('600x100') #Dimension el tamaño
+    #VentanaSELECCION.geometry('300x185') #Dimension el tamaño para botones juntos
     VentanaSELECCION.eval('tk::PlaceWindow . center')
     VentanaSELECCION.iconbitmap('validator_icono.ico')
+    VentanaSELECCION.configure(bg='grey77')
     mensaje = Label(VentanaSELECCION,text="SELECCIONE ADQUIRENCIA")
+    mensaje.configure(bg='grey77',fg="black",font='Helvetica 12 bold')
     mensaje.pack()
 
     def clickedVicap():
@@ -58,7 +61,7 @@ def formularioGeneral():
 
 #####################LOGO DE ADQUIRENCIAS###################################################
    
-    visaimg = Image.open('img\\Visa.jpg')
+    visaimg = Image.open('img\\Visa.png')
     visaimg = visaimg.resize((100, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
     visaimg = ImageTk.PhotoImage(visaimg)
 
@@ -67,20 +70,26 @@ def formularioGeneral():
     masterimg = ImageTk.PhotoImage(masterimg)
 
     multiimg = Image.open('img\\Multi.png')
-    multiimg = multiimg.resize((130, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
+    multiimg = multiimg.resize((100, 50), Image.ANTIALIAS) # Redimension (Alto, Ancho)
     multiimg = ImageTk.PhotoImage(multiimg)
 
 ############################################################################################
 
 
-    BOTON_MCAP = Button(VentanaSELECCION,image=masterimg,bg = "gold",command=clickedMcap)
-    BOTON_MCAP.pack(expand= "True",fill="x")
-
+######################################BOTONES########################################################
+#royalblue4
     BOTON_VICAP = Button(VentanaSELECCION,image=visaimg, bg = "royalblue4",command=clickedVicap)
-    BOTON_VICAP.pack(expand= "True",fill="x")
+    BOTON_VICAP.place(x=100, y=30)
+    #BOTON_VICAP.pack(expand= "True",fill="x")
 
-    BOTON_MULTI = Button(VentanaSELECCION,image=multiimg,bg = "royalblue2",command=clickedMulti)
-    BOTON_MULTI.pack(expand= "True",fill="x")
+    BOTON_MCAP = Button(VentanaSELECCION,image=masterimg,bg = "royalblue4",command=clickedMcap)
+    BOTON_MCAP.place(x=250, y=30)
+
+    BOTON_MULTI = Button(VentanaSELECCION,image=multiimg,bg = "royalblue4",command=clickedMulti)
+    BOTON_MULTI.place(x=400, y=30)
+
+######################################################################################################
+
 
     VentanaSELECCION.mainloop()
 
