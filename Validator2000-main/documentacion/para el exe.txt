@@ -1,1 +1,0 @@
-pyinstaller --onefile --icon=validator_icono.ico main.pyw
