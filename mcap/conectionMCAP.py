@@ -2,6 +2,7 @@
 
 import pyodbc
 import tkinter as tk
+from tkinter import messagebox
 
 
 def llamado():
@@ -14,7 +15,9 @@ def llamado():
     try:
         conexion = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+bd+';UID='+usuario+';PWD='+contrasena+'')
         print("Conexion OK")
+        messagebox.showinfo(message="¡Conexión OK!", title="OK")
     except :
+        messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
         print("Fallo Conexion")
         pass
 

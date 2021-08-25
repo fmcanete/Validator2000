@@ -63,8 +63,6 @@ class manejoDeLosArchivosTXT():
 
 
 			finRegistro = contadorArchivo - 1
-			print("fin registro")
-			print(finRegistro)
 
 			aux = listaArchivo[finRegistro]
 
@@ -75,8 +73,6 @@ class manejoDeLosArchivosTXT():
 					cont = cont+1
 					if cadena[0] != "0":
 						Tipo.append(str(cadena[1:1]))
-						print("tipo")
-						print(Tipo)
 						MkOffLine.append(cadena[1:2])
 						MkBanda.append(cadena[2:3])
 						Tarjeta.append(cadena[3:19])

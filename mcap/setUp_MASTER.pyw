@@ -22,6 +22,7 @@ class OpenForms():
 		window.eval('tk::PlaceWindow . center')
 		window.iconbitmap('validator_icono.ico')
 		mensaje = Label(window,text="SELECCIONE OPCION PARA MCAP")
+		mensaje.configure(fg="black",font='Helvetica 12 bold')
 		mensaje.pack()
 		
 		#METODO QUE OBTIENE LA RUTA DONDE ESTA EL ARCHIVO MOV2000
@@ -137,12 +138,14 @@ class OpenForms():
 		
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
+		btn.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
 		btn2 = Button(window, text="Lectura Total  - MOV2000", command=clickedTotal)
 		btn2.pack(expand= "True",fill="x")
-		
+		btn2.configure(bg='tan1',fg="black",font='Helvetica 11 bold')		
 		btn3 = Button(window, text="Subida BDD", command=clickedBDD)
 		btn3.pack(expand= "True",fill="x")
-	
+		btn3.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
+
 		window.mainloop()
 		
 		return window
