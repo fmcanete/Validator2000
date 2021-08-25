@@ -15,9 +15,17 @@ class MyForm(wx.Frame):
 
 		itera = 0
 		#Se colocan los nombres de las columnas
-		nombres =['NUMEST','TERMINAL'] 
+		nombres =['Codsis','Codtar','Codadm','Codbco','CodSuc'
+				,'Filler1','Codop','Fproc','Numtar','Numest'
+				,'Filler3','DIAORIG','MESORIG','AnioOrig','NumAut'
+				,'NroCupon','PlnCuo','Numcuot','Moneda','Importe'
+				,'Filler5','Codpais','Filler6','CodRechazo','Filler7'
+				,'NroCaja','Filler9','MsgRechazo','Filler2'
+				,'Codbco2','CodSuc2','MovComis','Filler8','FinReg']
+		
+		convertirString = {x : 'str'  for x in nombres}  #Se hace strings a todos los datos de las columnas, para asi leerlo
 		rango = len(nombres)   #Se toma la dimensión de la lista anterior
-		LecturaCamposBasicos = pd.read_csv('CSV_MOVRECHAZOS.CSV',sep=';', index_col=0)   #Se abre el CSV creado anteriormente
+		LecturaCamposBasicos = pd.read_csv('CSV_MOVRECHAZOS.CSV',sep=';', index_col=0,dtype=convertirString)   #Se abre el CSV creado anteriormente
 		CantidadTranasacciones = len(LecturaCamposBasicos) #Se obtiene la cantidad de transacciones
 		
 		myGrid = gridlib.Grid(panel)        #Se crea la grilla
