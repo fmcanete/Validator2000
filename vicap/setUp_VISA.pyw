@@ -11,7 +11,7 @@ import wx.grid as gridlib
 from timeit import timeit
 #import archivos
 from vicap import *
-from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,GrillaMOVRECHAZOS,archivoMOVRECHAZOS,archivoM240, GrillaM240
+from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,GrillaMOVRECHAZOS,archivoMOVRECHAZOS,archivoM240, GrillaM240, archivoMEMOV, GrillaMEMOV
 
 
 class OpenForms(): 
@@ -19,7 +19,7 @@ class OpenForms():
 	def abrirFormulario():
 		window = tk.Tk() #Inicia el Formulario
 		window.title("VICAP - VALIDATOR")  #Pone el título
-		window.geometry('400x185') #Dimension el tamaño
+		window.geometry('400x215') #Dimension el tamaño
 		window.eval('tk::PlaceWindow . center')
 		window.iconbitmap('validator_icono.ico')
 		mensaje = Label(window,text="SELECCIONE OPCION PARA VICAP")
@@ -238,6 +238,60 @@ class OpenForms():
 			else:
 				print("Vuelvo a iterar")	#esto es cuando se abre y se cierra la ventana con cancelar		
 
+#ALAN INICIO MEMOV 
+		def clickedMEMOV(): #casos MEMOV
+			MEMOVPlano = "a"
+			listaArchivo = []
+			contadorArchivo = 0
+			CSV_MEMOV = "a"
+			listaCompleta = []
+			ruta= ""
+
+			ruta = abrir_archivo() #SE LLAMA EL MÉTODO DONDE SE CONSIGUE LA RUTA
+
+			if ruta != '':  #Si la ruta no está vacía proceso.
+	
+				MEMOVPlano = archivoMEMOV.manejoDeLosArchivosTXT.abrirArchivo(MEMOVPlano,ruta)
+				listaArchivo, contadorArchivo = archivoMEMOV.manejoDeLosArchivosTXT.recorrerArchivoMEMOV(MEMOVPlano, listaArchivo, contadorArchivo)
+
+				if listaArchivo !=11: #Si el método listaArchivo no dió excepción de memoria entro
+
+					if listaArchivo != 10: #Si el método listaArchivo no dió otra excepcion entro
+						listaCompleta = archivoMEMOV.manejoDeLosArchivosTXT.subStringLista(listaArchivo, contadorArchivo, listaCompleta)
+						archivoMEMOV.manejoDeLosArchivosTXT.cerrarArchivo(MEMOVPlano)
+
+						if listaCompleta != 10: #Si el método listaCompleta no dió excepcion entro
+							
+							if len(listaArchivo) < 100000: #Si el MOV2000 es muy grande no carga la grilla
+								window.destroy()
+								import ventanaProgress	
+								app = wx.App()
+								ventana = ventanaProgress.start1()
+								display = GrillaMEMOV.MyForm().Show()
+								ventana.destroy()						
+								app.MainLoop()
+								timestamp = time.strftime('%Y%m%d%H%M%S')
+								os.rename('CSV_MEMOV.CSV', 'vicap\\EvidenciasMEMOV\\TOTALMEMOV_'+timestamp+'.CSV')
+								OpenForms.abrirFormulario()
+							else:
+								messagebox.showinfo(message="¡Archivo muy grande para mostrar en grilla!", title="Error")
+								print("Formato de muy grande vuelvo a iterar")
+
+
+						else:
+							messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+							print("Formato de Archivo erroneo, vuelvo a iterar")
+					else:
+						print("Formato de Archivo erroneo, vuelvo a iterar")
+						messagebox.showinfo(message="¡Error en formato de Archivo!", title="Error")
+
+				else:
+					print("Formato de Archivo erroneo, vuelvo a iterar")
+					messagebox.showinfo(message="¡Error en memoria, archivo muy grande!", title="Error")
+			else:
+				print("Vuelvo a iterar")	#esto es cuando se abre y se cierra la ventana con cancelar	
+#FIN MEMOV
+
 		def clickedMOVRECHAZOS(): #casos MOVRECHAZOS
 						
 			movrechaPlano = "a"
@@ -308,7 +362,9 @@ class OpenForms():
 		btn5 = Button(window, text="Movrechazos", command=clickedMOVRECHAZOS)
 		btn5.pack(expand= "True",fill="x")
 		btn5.configure(bg='SkyBlue3',fg="black",font='Helvetica 11 bold')
-
+		btn6 = Button(window, text="MEMOV", command=clickedMEMOV)
+		btn6.pack(expand= "True",fill="x")
+		btn6.configure(bg='SkyBlue4',fg="black",font='Helvetica 11 bold')
 
 	
 		window.mainloop()
