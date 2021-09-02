@@ -199,7 +199,7 @@ class OpenForms():
 		btn3 = Button(window, text="Movrechazos", command=clickedMOVRECHAZOS)
 		btn3.pack(expand= "True",fill="x")
 		btn3.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')		
-		btn4 = Button(window, text="Subida BDD", command=clickedBDD)
+		btn4 = Button(window, text="Subida BDD - Servidor", command=clickedBDD)
 		btn4.pack(expand= "True",fill="x")
 		btn4.configure(bg='tan1',fg="black",font='Helvetica 11 bold')
 
