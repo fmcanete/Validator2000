@@ -8,7 +8,8 @@ import pandas as pd
 import vicap 
 from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,setUp_VISA,archivoMOVRECHAZOS,GrillaMOVRECHAZOS
 from mcap import archivos, Grilla,setUp_MASTER
-
+import Multicap
+from Multicap import setUp_MULTICAP 
 
 ########################### Imagen Fantastica ################################################
 window = Tk()  
@@ -29,7 +30,6 @@ window.mainloop()
 
 def Inicializar(parametro):
     parametro.OpenForms.abrirFormulario()
-
 
 def formularioGeneral():
     VentanaSELECCION = tk.Tk() #Inicia el Formulario
@@ -54,10 +54,9 @@ def formularioGeneral():
         formularioGeneral()
 
     def clickedMulti():
-        #VentanaSELECCION.destroy()
-        #Inicializar(setUp_MASTER)
-        messagebox.showinfo(message="¡En construcción!", title="En construccion")
-        #formularioGeneral()
+        VentanaSELECCION.destroy()
+        Inicializar(setUp_MULTICAP)
+        formularioGeneral()
 
 #####################LOGO DE ADQUIRENCIAS###################################################
    
