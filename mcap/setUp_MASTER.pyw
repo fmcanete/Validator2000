@@ -18,7 +18,7 @@ class OpenForms():
 	def abrirFormulario():
 		window = tk.Tk() #Inicia el Formulario
 		window.title("MCAP - VALIDATOR")  #Pone el título
-		window.geometry('400x150') #Dimension el tamaño
+		window.geometry('400x180') #Dimension el tamaño
 		window.eval('tk::PlaceWindow . center')
 		window.iconbitmap('validator_icono.ico')
 		mensaje = Label(window,text="SELECCIONE OPCION PARA MCAP")
@@ -189,7 +189,10 @@ class OpenForms():
 
 		def clickedBDD():
 			llamada = conectionMCAP.llamado()
-		
+
+		def clickedComparador():
+			llamada = conectionMCAP.llamadoComparador()
+
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
 		btn.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
@@ -202,6 +205,9 @@ class OpenForms():
 		btn4 = Button(window, text="Subida BDD - Servidor", command=clickedBDD)
 		btn4.pack(expand= "True",fill="x")
 		btn4.configure(bg='tan1',fg="black",font='Helvetica 11 bold')
+		btn5 = Button(window, text="Comparador - Servidor", command=clickedComparador)
+		btn5.pack(expand= "True",fill="x")
+		btn5.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
 
 		window.mainloop()
 		

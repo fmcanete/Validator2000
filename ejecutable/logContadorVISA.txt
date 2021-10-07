@@ -1,0 +1,10 @@
+Total de transacciones: 3
+Tipo Debito: 0
+Tipo Credito: 3
+
+Desglosados en: 
+Tipo Emision no Prisma: 0
+Plan Gobierno: 0
+Tokenizada: 0
+Visa Release: 3
+Campo BCRA UPI: 0
