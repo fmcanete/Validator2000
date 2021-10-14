@@ -89,7 +89,7 @@ class manejoDeLosArchivosTXT():
 						Filler1.append(cadena[15:24]) 
 						Codop.append(cadena[24:28]) 
 						Fproc.append(cadena[28:34]) 
-						Numtar.append(cadena[34:50]) 
+						Numtar.append(str(cadena[34:50])) 
 						Numest.append(cadena[50:60]) 
 						Filler3.append(cadena[60:104]) 
 						DIAORIG.append(cadena[104:106]) 
