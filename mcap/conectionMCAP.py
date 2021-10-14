@@ -173,13 +173,16 @@ def llamadoComparador():
 
             if comparacion == '0':
                 messagebox.showinfo(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! ¡NO HAY DIFERENCIAS!', title="OK")
+            
             else:
-                messagebox.showinfo(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! Hay ' +comparacion+' transacciones de diferencias', title="HAY DIFERENCIAS")                    
+                messagebox.showwarning(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! Hay ' +comparacion+' transacciones de diferencias', title="HAY DIFERENCIAS")                    
+            
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
 
         
-        except :
-            messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
+        except Exception:
+            
+            messagebox.showerror(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
             pass
 

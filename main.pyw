@@ -14,14 +14,14 @@ from mcap import archivos, Grilla,setUp_MASTER
 window = Tk()  
 window.overrideredirect(True)
 window.wm_attributes("-topmost", True)
-window.geometry("+450+150")
-canvas = Canvas(window, width = 800, height = 800)   
+window.geometry("+600+250")
+canvas = Canvas(window, width = 200, height = 200)   
 canvas.configure(bg='black')        
 img = PhotoImage(file="validator2.png") 
 img = img.subsample(2)
 canvas.create_image(1,1, anchor=NW, image=img)
 canvas.pack()     
-canvas.config(width="400", height="400") 
+canvas.config(width="350", height="100") 
 window.after(3000, window.destroy)
 window.mainloop()
 ###############################################################################################
@@ -35,8 +35,9 @@ def formularioGeneral():
     VentanaSELECCION = tk.Tk() #Inicia el Formulario
     VentanaSELECCION.title("VALIDATOR")  #Pone el título
     VentanaSELECCION.geometry('600x100') #Dimension el tamaño
+    VentanaSELECCION.geometry("+450+250")
     #VentanaSELECCION.geometry('300x185') #Dimension el tamaño para botones juntos
-    VentanaSELECCION.eval('tk::PlaceWindow . center')
+    #VentanaSELECCION.eval('tk::PlaceWindow . center')
     VentanaSELECCION.iconbitmap('validator_icono.ico')
     VentanaSELECCION.configure(bg='grey77')
     mensaje = Label(VentanaSELECCION,text="SELECCIONE ADQUIRENCIA")
