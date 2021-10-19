@@ -19,8 +19,8 @@ class MyForm(wx.Frame):
 				,'Filler1','Codop','Fproc','Numtar','Numest'
 				,'Filler3','DIAORIG','MESORIG','AnioOrig','NumAut'
 				,'NroCupon','PlnCuo','Numcuot','Moneda','Importe'
-				,'Filler5','Codpais','Filler6','CodRechazo','Filler7'
-				,'NroCaja','Filler9','MsgRechazo','Filler2'
+				,'Filler5','Codpais','Filler6','Filler7'
+				,'NroCaja','Filler9','MsgRechazo','CodRechazo','Filler2'
 				,'Codbco2','CodSuc2','MovComis','Filler8','FinReg']
 		
 		convertirString = {x : 'str'  for x in nombres}  #Se hace strings a todos los datos de las columnas, para asi leerlo
