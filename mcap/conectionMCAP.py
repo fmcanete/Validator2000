@@ -7,7 +7,8 @@ import configparser
 import time,os
 
 def abrir_archivo():
-    archivo_abierto=filedialog.askopenfilename(initialdir = "/", #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
+    #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
+    archivo_abierto=filedialog.askopenfilename(initialdir = "/", 
     title = "Seleccione archivo",filetypes = (("txt files","*.txt"),
     ("all files","*.*")))
     return(archivo_abierto)
@@ -50,6 +51,21 @@ def llamado():
             truncate = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1') 
             bulk = accion (conexion,elbulk)
 
+            ############################################################
+            
+            #elbulk = 'BULK INSERT '+bd+'.dbo.MOV2000_V1 FROM' + " '" + ruta + "'"
+            #sql = 'exec [my_database].[dbo].[my_table](?, ?, ?, ?, ?, ?, ?, ?)'
+
+            sp_crearTablaCamposBasicos = 'exec ' +bd+ '.dbo.sp_crearTablaCamposBasicos' 
+            llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
+
+            sp_insertarCamposBasicos = 'exec ' +bd+ '.dbo.sp_insertarCamposBasicos' 
+            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)
+
+            
+            
+            ############################################################
+
  
             #Se agregan los select para consultas
             total = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,1,1) = 'D'")        
@@ -89,7 +105,7 @@ def llamado():
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
 
         
-        except :
+        except ZeroDivisionError:
             messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
             pass
