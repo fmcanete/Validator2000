@@ -13,8 +13,7 @@ def abrir_archivo():
     ("all files","*.*")))
     return(archivo_abierto)
 
-
-def llamado():
+def configBD ():
     config = configparser.ConfigParser()
     config.read('mcap\\Aconfig.ini')
 
@@ -22,8 +21,29 @@ def llamado():
     bd = config['DEFAULT']['DB_NAME']
     usuario = config['DEFAULT']['DB_USER']
     contrasena = config['DEFAULT']['DB_PASSWORD']
+
+    return server, bd, usuario, contrasena
+
+def accion(connection,query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+
+
+def consulta(connection,query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+    dato = cursor.fetchone()
+
+    while dato:
+        total = str(dato[0])
+        dato = cursor.fetchone()
+    return total  
+
+def llamado():
     
     ruta = abrir_archivo()
+    server, bd, usuario, contrasena = configBD()
+    
     if ruta != '':
 
         elbulk = 'BULK INSERT '+bd+'.dbo.MOV2000_V1 FROM' + " '" + ruta + "'"
@@ -32,39 +52,20 @@ def llamado():
             #Conexion a la BDD
             conexion = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+bd+';UID='+usuario+';PWD='+contrasena+'')
             print("Conexion OK")
-            #Se arma el cursos para ejecutar el truncate y el Bulk Insert del primer MOV2000 
 
-            def accion(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
+                       
+            queryTruncateBulk = 'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1'
 
-            def consulta(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
-                dato = cursor.fetchone()
+            truncate = accion(conexion,queryTruncateBulk) 
+            EjecutarBulk = accion (conexion,elbulk)
 
-                while dato:
-                    total = str(dato[0])
-                    dato = cursor.fetchone()
-                return total   
-
-            truncate = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1') 
-            bulk = accion (conexion,elbulk)
-
-            ############################################################
-            
-            #elbulk = 'BULK INSERT '+bd+'.dbo.MOV2000_V1 FROM' + " '" + ruta + "'"
-            #sql = 'exec [my_database].[dbo].[my_table](?, ?, ?, ?, ?, ?, ?, ?)'
-
+            ########################STORE PROCEDURE####################################
             sp_crearTablaCamposBasicos = 'exec ' +bd+ '.dbo.sp_crearTablaCamposBasicos' 
             llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
 
             sp_insertarCamposBasicos = 'exec ' +bd+ '.dbo.sp_insertarCamposBasicos' 
-            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)
-
-            
-            
-            ############################################################
+            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)         
+            ########################STORE PROCEDURE####################################
 
  
             #Se agregan los select para consultas
