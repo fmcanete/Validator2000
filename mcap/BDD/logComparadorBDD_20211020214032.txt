@@ -1,4 +1,0 @@
-MOV2000 1: D:/Prisma/MOV2000.txt
-MOV2000 2: D:/Prisma/MOV2000.txt
-
-- Transacciones de Diferencia: 0 transacciones
