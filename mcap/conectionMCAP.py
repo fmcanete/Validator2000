@@ -81,10 +81,6 @@ def llamado():
             conexion.commit()
             conexion.close()
 
-            '''def loggeador(log,ruta,total,mensaje):
-                log.write(mensaje + total + ' transacciones')
-                log.write('\n')'''
-
             logDatosBDD = open('mcap\\BDD\\logDatosBDD.txt', "w") 
             logDatosBDD.write('MOV2000 subido: '+ruta)
             logDatosBDD.write('\n')
@@ -110,20 +106,11 @@ def llamado():
             print("Fallo Conexion")
             pass
 
-
 def llamadoComparador():
 
     ruta = abrir_archivo()
     server, bd, usuario, contrasena = configBD()
 
-
-    #config = configparser.ConfigParser()
-    #config.read('mcap\\Aconfig.ini')
-
-    '''server = config['DEFAULT']['SERVER_NAME']
-    bd = config['DEFAULT']['DB_NAME']
-    usuario = config['DEFAULT']['DB_USER']
-    contrasena = config['DEFAULT']['DB_PASSWORD']'''
     
     #ruta = abrir_archivo()
     if ruta != '':
