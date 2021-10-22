@@ -5,6 +5,9 @@ import tkinter as tk
 from tkinter import messagebox,filedialog
 import configparser
 import time,os
+import json
+from json2html import *
+import subprocess
 
 def abrir_archivo():
     #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
@@ -64,10 +67,10 @@ def llamado():
 
             ########################STORE PROCEDURE####################################
             sp_crearTablaCamposBasicos = 'exec ' +bd+ '.dbo.sp_crearTablaCamposBasicos' 
-            llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
+            #llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
 
             sp_insertarCamposBasicos = 'exec ' +bd+ '.dbo.sp_insertarCamposBasicos' 
-            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)         
+            #llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)         
             ########################STORE PROCEDURE####################################
 
             #Se agregan los select para consultas
@@ -95,13 +98,33 @@ def llamado():
             timestamp = time.strftime('%Y%m%d%H%M%S')
             os.rename('mcap\\BDD\\logDatosBDD.txt', 'mcap\\BDD\\logDatosBDD_'+timestamp+'.txt')
 
+####################################RESULTADOS JSON-HTML##############################################
+            input = {
+                "Archivo ":ruta,
+                "Cantidad de Transacciones ":total,
+                "Transacciones de Crédito ":trxCredito,
+                "Transacciones de Débito ":trxDebito,
+                "Planes Gobierno ": planesGob
+            }
+            test = json2html.convert(json = input)
+            print(test)
+            archivo_HTML = open('Resultados.html', "w")
+            archivo_HTML.write("""<h2><span class="text"></span><span class="span">
+            <img class="goldT" src="validator2.png"  WIDTH=200 HEIGHT=50>
+            </span></h2>""")
+            archivo_HTML.write(test)
+            archivo_HTML.close()
+            os.system("Resultados.html")
+
+####################################RESULTADOS JSON-HTML##############################################      
 
 
             messagebox.showinfo(message='¡Subida OK al '+server+', verificar MOV2000_V1 en '+bd+'!', title="OK")
+            os.rename('Resultados.html', 'mcap\\BDD\\Resultados_'+timestamp+'.html')
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
 
         
-        except ZeroDivisionError:
+        except:
             messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
             pass
@@ -159,6 +182,7 @@ def llamadoComparador():
             
             timestamp = time.strftime('%Y%m%d%H%M%S')
             os.rename('mcap\\BDD\\logComparadorBDD.txt', 'mcap\\BDD\\logComparadorBDD_'+timestamp+'.txt')
+
 
 
             if comparacion == '0':
