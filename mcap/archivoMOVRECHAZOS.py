@@ -104,11 +104,11 @@ class manejoDeLosArchivosTXT():
 						Filler5.append(cadena[148:152]) 
 						Codpais.append(cadena[152:154]) 
 						Filler6.append(cadena[154:162]) 
-						CodRechazo.append(cadena[162:165]) 
 						Filler7.append(cadena[165:194]) 
 						NroCaja.append(cadena[194:198]) 
 						Filler9.append(cadena[198:282]) 
 						MsgRechazo.append(cadena[282:357])   
+						CodRechazo.append(cadena[347:350]) 
 						Filler2.append(cadena[357:363]) 
 						Codbco2.append(cadena[363:366]) 
 						CodSuc2.append(cadena[366:369]) 
@@ -128,16 +128,16 @@ class manejoDeLosArchivosTXT():
 				'Filler3':Filler3,'DIAORIG':DIAORIG,'MESORIG':MESORIG,'AnioOrig':AnioOrig,
 				'NumAut':NumAut,'NroCupon':NroCupon,'PlnCuo':PlnCuo,'Numcuot':Numcuot,
 				'Moneda':Moneda,'Importe':Importe,'Filler5':Filler5,'Codpais':Codpais,
-				'Filler6':Filler6,'CodRechazo':CodRechazo,'Filler7':Filler7,'NroCaja':NroCaja,
-				'Filler9':Filler9,'MsgRechazo':MsgRechazo,'Filler2':Filler2,'Codbco2':Codbco2,
+				'Filler6':Filler6,'Filler7':Filler7,'NroCaja':NroCaja,
+				'Filler9':Filler9,'MsgRechazo':MsgRechazo,'CodRechazo':CodRechazo,'Filler2':Filler2,'Codbco2':Codbco2,
 				'CodSuc2':CodSuc2,'MovComis':MovComis,'Filler8':Filler8,'FinReg':FinReg} 
 
 				df = pd.DataFrame(data, columns =['Codsis','Codtar','Codadm','Codbco','CodSuc'
 				,'Filler1','Codop','Fproc','Numtar','Numest'
 				,'Filler3','DIAORIG','MESORIG','AnioOrig','NumAut'
 				,'NroCupon','PlnCuo','Numcuot','Moneda','Importe'
-				,'Filler5','Codpais','Filler6','CodRechazo','Filler7'
-				,'NroCaja','Filler9','MsgRechazo','Filler2'
+				,'Filler5','Codpais','Filler6','Filler7'
+				,'NroCaja','Filler9','MsgRechazo', 'CodRechazo','Filler2'
 				,'Codbco2','CodSuc2','MovComis','Filler8','FinReg'])
 
 				df.to_csv('CSV_MOVRECHAZOS.CSV', sep=';')

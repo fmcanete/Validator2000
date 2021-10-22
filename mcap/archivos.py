@@ -81,7 +81,7 @@ class manejoDeLosArchivosTXT():
 						binBancoPagador.append(cadena[171:177])
 						nombreComercio.append(cadena[321:342])
 						TjCodBanco.append(cadena[396:399])
-						numTarMov2000.append(cadena[439:456])
+						numTarMov2000.append(cadena[439:458])
 						planGob.append(cadena[592])
 						token.append(cadena[535])
 						numToken.append(cadena[536:552])

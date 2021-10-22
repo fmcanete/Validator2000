@@ -7,13 +7,13 @@ import configparser
 import time,os
 
 def abrir_archivo():
-    archivo_abierto=filedialog.askopenfilename(initialdir = "/", #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
+    #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
+    archivo_abierto=filedialog.askopenfilename(initialdir = "/", 
     title = "Seleccione archivo",filetypes = (("txt files","*.txt"),
     ("all files","*.*")))
     return(archivo_abierto)
 
-
-def llamado():
+def configBD ():
     config = configparser.ConfigParser()
     config.read('mcap\\Aconfig.ini')
 
@@ -21,8 +21,32 @@ def llamado():
     bd = config['DEFAULT']['DB_NAME']
     usuario = config['DEFAULT']['DB_USER']
     contrasena = config['DEFAULT']['DB_PASSWORD']
+
+    return server, bd, usuario, contrasena
+
+def accion(connection,query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+
+def consulta(connection,query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+    dato = cursor.fetchone()
+
+    while dato:
+        total = str(dato[0])
+        dato = cursor.fetchone()
+    return total  
+
+def loggeador(log,ruta,total,mensaje):
+    log.write(mensaje + total + ' transacciones')
+    log.write('\n')
+
+def llamado():
     
     ruta = abrir_archivo()
+    server, bd, usuario, contrasena = configBD()
+    
     if ruta != '':
 
         elbulk = 'BULK INSERT '+bd+'.dbo.MOV2000_V1 FROM' + " '" + ruta + "'"
@@ -31,26 +55,21 @@ def llamado():
             #Conexion a la BDD
             conexion = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+bd+';UID='+usuario+';PWD='+contrasena+'')
             print("Conexion OK")
-            #Se arma el cursos para ejecutar el truncate y el Bulk Insert del primer MOV2000 
 
-            def accion(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
+                       
+            queryTruncateBulk = 'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1'
 
-            def consulta(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
-                dato = cursor.fetchone()
+            truncate = accion(conexion,queryTruncateBulk) 
+            EjecutarBulk = accion (conexion,elbulk)
 
-                while dato:
-                    total = str(dato[0])
-                    dato = cursor.fetchone()
-                return total   
+            ########################STORE PROCEDURE####################################
+            sp_crearTablaCamposBasicos = 'exec ' +bd+ '.dbo.sp_crearTablaCamposBasicos' 
+            llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
 
-            truncate = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1') 
-            bulk = accion (conexion,elbulk)
+            sp_insertarCamposBasicos = 'exec ' +bd+ '.dbo.sp_insertarCamposBasicos' 
+            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)         
+            ########################STORE PROCEDURE####################################
 
- 
             #Se agregan los select para consultas
             total = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,1,1) = 'D'")        
             emisionNP = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,397,3) = '998'")
@@ -59,15 +78,8 @@ def llamado():
             trxCredito = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,319,1) = '1'")
             #print('El MOV2000 tiene: ' + total + ' transacciones')
 
-
-
-
             conexion.commit()
             conexion.close()
-
-            def loggeador(log,ruta,total,mensaje):
-                log.write(mensaje + total + ' transacciones')
-                log.write('\n')
 
             logDatosBDD = open('mcap\\BDD\\logDatosBDD.txt', "w") 
             logDatosBDD.write('MOV2000 subido: '+ruta)
@@ -89,22 +101,18 @@ def llamado():
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
 
         
-        except :
+        except ZeroDivisionError:
             messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
             pass
 
-
 def llamadoComparador():
-    config = configparser.ConfigParser()
-    config.read('mcap\\Aconfig.ini')
 
-    server = config['DEFAULT']['SERVER_NAME']
-    bd = config['DEFAULT']['DB_NAME']
-    usuario = config['DEFAULT']['DB_USER']
-    contrasena = config['DEFAULT']['DB_PASSWORD']
-    
     ruta = abrir_archivo()
+    server, bd, usuario, contrasena = configBD()
+
+    
+    #ruta = abrir_archivo()
     if ruta != '':
         ruta2 = abrir_archivo()
         elbulk = 'BULK INSERT '+bd+'.dbo.MOV2000_V1 FROM' + " '" + ruta + "'"
@@ -115,20 +123,6 @@ def llamadoComparador():
             conexion = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+bd+';UID='+usuario+';PWD='+contrasena+'')
             print("Conexion OK")
             #Se arma el cursos para ejecutar el truncate y el Bulk Insert del primer MOV2000 
-
-            def accion(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
-
-            def consulta(connection,query):
-                cursor = connection.cursor()
-                cursor.execute(query)
-                dato = cursor.fetchone()
-
-                while dato:
-                    total = str(dato[0])
-                    dato = cursor.fetchone()
-                return total   
 
             #MOV2000_1
             truncate = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V1') 
@@ -153,10 +147,6 @@ def llamadoComparador():
 
             conexion.commit()
             conexion.close()
-
-            def loggeador(log,ruta,total,mensaje):
-                log.write(mensaje + total + ' transacciones')
-                log.write('\n')
 
             logDatosBDD = open('mcap\\BDD\\logComparadorBDD.txt', "w") 
             logDatosBDD.write('MOV2000 1: '+ruta)
