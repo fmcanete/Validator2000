@@ -1,0 +1,4 @@
+;numTarMovMes;establecimiento;nroAut;planCuot;numCuot;cuotas;AjusteCuota1STD;moneda;importe;codPais;importeOrig;binBancoPagador;nombreComercio;TjCodBanco;numTarMov2000;planGob;token;numToken;posDataCode;visaRelease;tipoTarjeta;campoBCRA;diasPago
+0;4425480000159189;0041662941;00107376;00;00;00;   ;ARP;14.0;AR;00000000000000;509790;LOS NEGRITOS         ;007;4425480000159189 ; ;N;                ;500101S54101 ; ;E;  ;18
+1;4425480000159189;0041662941;00107376;00;00;00;   ;ARP;14.0;AR;00000000000000;509790;LOS NEGRITOS         ;007;4425480000159189 ; ;N;                ;500101S54101 ; ;E;  ;18
+2;4425480000159189;0041662941;00107376;00;00;00;   ;ARP;2401.0;AR;00000000000000;509790;LOS NEGRITOS         ;007;4425480000159189 ; ;N;                ;500101S54101 ; ;E;  ;18
