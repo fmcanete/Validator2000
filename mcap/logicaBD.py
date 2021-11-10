@@ -80,23 +80,41 @@ def reporteJson(jsonParametroTipTar, jsonParametroENP, jsonParametroPG):
     #<img class="goldT" src="validator2.png"  WIDTH=200 HEIGHT=50>
     #</span></h2>""")
     archivo_HTML.write("""
-    <body background="validator2.png" bgcolor="5CCC52" style="background-repeat: no-repeat; background-position: center center;>
-    <h2>	
-        <span class="text"></span>	<span class="span">
-            <div align="right">
-                <img class="goldT" src="validator.png"  WIDTH=75 HEIGHT=75>	
-        </div>
-    </span></h2> </body>""")
+    <body bgcolor="5CCC52" style="background-repeat: no-repeat; background-position: down center;>
+        div align="center">
+            <img aligne="center" src="validator2.png"  WIDTH=175 HEIGHT=44>	
+            <h1 align="center"> <strong>REPORTE DEL RESULTADO DE LAS PRUEBAS DEL MOV2000 </strong> </h1>
+    </div>
+    
+
+    </body>""")
     
     TipTar = json2html.convert(json = jsonParametroTipTar)
     ENP = json2html.convert(json = jsonParametroENP)
     PG = json2html.convert(json = jsonParametroPG)
-    ###NO TOCAR QUE ANDA###
+    
+    ### TIPOS DE TARJETA + TOTAL###
+    archivo_HTML.write(""" 
+        <div align="center">""")
     archivo_HTML.write(TipTar)
-    archivo_HTML.write("<br>")
+    archivo_HTML.write("""</div>""")
+    ### EMISION NO PRISMA ###
+    archivo_HTML.write(""" 
+        <div align="left">""")
     archivo_HTML.write(ENP)
-    archivo_HTML.write("<br>")
+    archivo_HTML.write("""</div>""")
+    ### EMISION NO PRISMA ###
+    archivo_HTML.write(""" 
+        <div align="right">""")
     archivo_HTML.write(PG)
+    archivo_HTML.write("""</div>""")
+    
+    ###NO TOCAR QUE ANDA###
+    #archivo_HTML.write(TipTar)
+    #archivo_HTML.write("<br>")
+    #archivo_HTML.write(ENP)
+    #archivo_HTML.write("<br>")
+    #archivo_HTML.write(PG)
     archivo_HTML.close()
     os.system("Resultados.html")
     ###NO TOCAR QUE ANDA### 
