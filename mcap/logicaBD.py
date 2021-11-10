@@ -29,53 +29,74 @@ def spTipoTarjetas(bd, conexion):
     sp_TipoTarjeta = 'exec ' +bd+ '.dbo.sp_TipoDeTarjetas' 
     llamada_sp_TipoTarjeta = conectionMCAP.accion(conexion, sp_TipoTarjeta)
     result_TipoTarjeta = conectionMCAP.consultaSP(conexion, sp_TipoTarjeta)
-    print("RESULT TIPO TARJETA: ", result_TipoTarjeta)
     return result_TipoTarjeta
 
 def sp_TotalENP(bd, conexion):
     sp_TotalENP = 'exec ' +bd+ '.dbo.sp_TotalENP' 
     llamada_sp_TotalENP = conectionMCAP.accion(conexion, sp_TotalENP)
     result_TotalENP = conectionMCAP.consultaSP(conexion, sp_TotalENP)
-    print("RESULT TIPO TARJETA: ", result_TotalENP)
     return result_TotalENP    
 
+def sp_TotalPG(bd, conexion):
+    sp_TotalPG = 'exec ' +bd+ '.dbo.sp_TotalPG' 
+    llamada_sp_TotalPG = conectionMCAP.accion(conexion, sp_TotalPG)
+    result_TotalPG = conectionMCAP.consultaSP(conexion, sp_TotalPG)
+    return result_TotalPG  
 
-def splitearCamposParaJsonPG(tipoTarjetas, filas, columna):
-    ###PARA PLAN GOBIERNO###
+def splitearCamposParaJsonTipTar(tipoTarjetas, filas, columna):
     canTrxDebito = tipoTarjetas[0][0]
     tipTarDeb = tipoTarjetas[0][1]
     canTrxCred = tipoTarjetas[1][0]
     tipTarCred = tipoTarjetas[1][1]
-    return canTrxDebito, tipTarDeb, canTrxCred, tipTarCred
+    total = tipoTarjetas[0][0] + tipoTarjetas[1][0]
+    return canTrxDebito, tipTarDeb, canTrxCred, tipTarCred, total
 
 def splitearCamposParaJsonENP(tipoENP):
     canTrxENP = tipoENP[0][0]
     codBanco = tipoENP[0][1] 
-    
     return canTrxENP, codBanco    
 
-def armadoBasicoJsonPG(canTrxDebito, tipTarDeb, canTrxCred, tipTarCred):
-    dataPG = 	{"TIPO_TARJETAS": 	[  {"TIPO":"DEBITO","Cantidad":canTrxDebito},    {"TIPO":"CREDITO","Cantidad":canTrxCred}   		 ] 	}
-    print("DATA: ", dataPG)
-    return dataPG
+def splitearCamposParaJsonPG(tipoPG):
+    canTrxPG = tipoPG[0][0]
+    cuotas = tipoPG[0][1] 
+    return canTrxPG, cuotas 
+
+def armadoBasicoJsonTipTar(canTrxDebito, tipTarDeb, canTrxCred, tipTarCred, total):
+    dataTipTar = {"TIPO_TARJETAS":[{"TIPO":tipTarDeb,"Cantidad":canTrxDebito},{"TIPO":tipTarCred ,"Cantidad":canTrxCred},{"TOTAL":total}]}
+    #dataTipTar = 	{"TIPO_TARJETAS": 	[  {"TIPO":tipTarDeb,"Cantidad":canTrxDebito},    {"TIPO":tipTarCred ,"Cantidad":canTrxCred},	{"TOTAL":total}			]}
+    return dataTipTar
 
 def armadoBasicoJsonENP(a1, b1):
-    print("LLEGUE")
-    #dataENP = 	{"TIPO DE EMISION": 	[  {"ENP": a1,"COD BANCO":a2},    	] 	}    
     dataENP = {"TIPO DE EMISION": 	[  {"TIPO":"ENP","Cantidad":a1,"codbanco":b1}] 	}
-    print("NO LLEGUE: ", dataENP)
     return dataENP
 
-def reporteJson(jsonParametroPG, jsonParametroENP):
-    print("JSON REPORTE: ", jsonParametroENP)
+def armadoBasicoJsonPG(c1, d1):
+    dataPG = {"TIPO DE PLAN": 	[  {"TIPO":"Plan Gobierno","Cantidad":c1,"Cuotas":d1}] 	}
+    return dataPG
+
+def reporteJson(jsonParametroTipTar, jsonParametroENP, jsonParametroPG):
     archivo_HTML = open('Resultados.html', "w")
-    archivo_HTML.write("""<h2><span class="text"></span><span class="span">
-    <img class="goldT" src="validator2.png"  WIDTH=200 HEIGHT=50>
-    </span></h2>""")
-    #           archivo_HTML.write(test)
-    PG = json2html.convert(json = jsonParametroPG)
+    #archivo_HTML.write("""<h2><span class="text"></span><span class="span">
+    #<img class="goldT" src="validator2.png"  WIDTH=200 HEIGHT=50>
+    #</span></h2>""")
+    archivo_HTML.write("""
+    <body background="validator2.png" bgcolor="5CCC52" style="background-repeat: no-repeat; background-position: center center;>
+    <h2>	
+        <span class="text"></span>	<span class="span">
+            <div align="right">
+                <img class="goldT" src="validator.png"  WIDTH=75 HEIGHT=75>	
+        </div>
+    </span></h2> </body>""")
+    
+    TipTar = json2html.convert(json = jsonParametroTipTar)
     ENP = json2html.convert(json = jsonParametroENP)
-    archivo_HTML.write(PG)
+    PG = json2html.convert(json = jsonParametroPG)
+    ###NO TOCAR QUE ANDA###
+    archivo_HTML.write(TipTar)
+    archivo_HTML.write("<br>")
     archivo_HTML.write(ENP)
+    archivo_HTML.write("<br>")
+    archivo_HTML.write(PG)
     archivo_HTML.close()
     os.system("Resultados.html")
+    ###NO TOCAR QUE ANDA### 
