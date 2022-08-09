@@ -1,0 +1,7 @@
+MOV2000 subido: D:/Prisma/MOV2000_modificado.TXT
+
+- El MOV2000 tiene: 15 transacciones
+- Cantidad Planes Gob: 0 transacciones
+- Cantidad EnP: 0 transacciones
+- Cantidad Debito: 14 transacciones
+- Cantidad Credito: 1 transacciones

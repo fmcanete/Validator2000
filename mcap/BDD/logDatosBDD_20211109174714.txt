@@ -1,0 +1,4 @@
+MOV2000 subido: D:/Prisma/MOV2000.txt
+
+- El MOV2000 tiene: 11461 transacciones
+- Cantidad Planes Gob: 248 transacciones

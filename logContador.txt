@@ -1,0 +1,10 @@
+Total de transacciones: 11467
+Tipo Debito: 9582
+Tipo Credito: 1885
+
+Desglosados en: 
+Tipo Emision no Prisma: 6
+Plan Gobierno: 248
+Tokenizada: 0
+Visa Release: 11461
+Campo BCRA UPI: 0

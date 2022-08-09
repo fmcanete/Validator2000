@@ -5,6 +5,10 @@ import tkinter as tk
 from tkinter import messagebox,filedialog
 import configparser
 import time,os
+import json
+from json2html import *
+import subprocess
+from mcap import logicaBD, graficas, reporteMcap
 
 def abrir_archivo():
     #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
@@ -36,7 +40,14 @@ def consulta(connection,query):
     while dato:
         total = str(dato[0])
         dato = cursor.fetchone()
-    return total  
+    return total
+
+def consultaSP(connection,query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+    dato = cursor.fetchall()
+
+    return dato       
 
 def loggeador(log,ruta,total,mensaje):
     log.write(mensaje + total + ' transacciones')
@@ -62,46 +73,70 @@ def llamado():
             truncate = accion(conexion,queryTruncateBulk) 
             EjecutarBulk = accion (conexion,elbulk)
 
-            ########################STORE PROCEDURE####################################
-            sp_crearTablaCamposBasicos = 'exec ' +bd+ '.dbo.sp_crearTablaCamposBasicos' 
-            llamada_sp_crearTablaCamposBasicos = accion(conexion, sp_crearTablaCamposBasicos)
+            logicaBD.spCamposBasicos(bd, conexion)
 
-            sp_insertarCamposBasicos = 'exec ' +bd+ '.dbo.sp_insertarCamposBasicos' 
-            llamada_sp_insertarCamposBasicos = accion(conexion, sp_insertarCamposBasicos)         
-            ########################STORE PROCEDURE####################################
+            #PARA TIPO DE TARJETAS CREDITO  DEBITO
+            tipoTarjetas = logicaBD.spTipoTarjetas(bd, conexion)
+            filas = len(tipoTarjetas)
+            columna = len(tipoTarjetas[0])
+            a, b, c, d, e = logicaBD.splitearCamposParaJsonTipTar(tipoTarjetas, filas, columna)
+            #a = cant trx debito ; b=tipo debito; c= can trx credito, d=tipo credito; e= suma de totales
+            jsonParametroTipTar = logicaBD.armadoBasicoJsonTipTar(a,b, c, d, e)
+            
+            #PARA EMISION NO PRISMA
+            tipoENP = logicaBD.sp_TotalENP(bd, conexion)
+            a1, b1 = logicaBD.splitearCamposParaJsonENP(tipoENP)
+            jsonParametroENP = logicaBD.armadoBasicoJsonENP(a1, b1)
+
+            #PARA PLAN GOBIERNO
+            tipoPG = logicaBD.sp_TotalPG(bd, conexion) #sp_TotalPG
+            c1, d1 = logicaBD.splitearCamposParaJsonPG(tipoPG)
+            jsonParametroPG = logicaBD.armadoBasicoJsonPG(c1, d1)
 
             #Se agregan los select para consultas
             total = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,1,1) = 'D'")        
-            emisionNP = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,397,3) = '998'")
-            planesGob = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,593,1) = '7'")
-            trxDebito = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,319,1) = 'E'")
-            trxCredito = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,319,1) = '1'")
+            
+            ###YA ESTA HECHO###
+            #planesGob = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,593,1) = '7'")
+            #emisionNP = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,397,3) = '998'")
+            #trxDebito = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,319,1) = 'E'")
+            #trxCredito = consulta(conexion,"Select count(*) from "+bd+".dbo.MOV2000_V1 where SUBSTRING(Info,319,1) = '1'")
+            
             #print('El MOV2000 tiene: ' + total + ' transacciones')
 
             conexion.commit()
             conexion.close()
+
+           
 
             logDatosBDD = open('mcap\\BDD\\logDatosBDD.txt', "w") 
             logDatosBDD.write('MOV2000 subido: '+ruta)
             logDatosBDD.write('\n')
             logDatosBDD.write('\n')
             loggeador(logDatosBDD,ruta,total,'- El MOV2000 tiene: ')
-            loggeador(logDatosBDD,ruta,planesGob,'- Cantidad Planes Gob: ')
-            loggeador(logDatosBDD,ruta,emisionNP,'- Cantidad EnP: ')
-            loggeador(logDatosBDD,ruta,trxDebito,'- Cantidad Debito: ')
-            loggeador(logDatosBDD,ruta,trxCredito,'- Cantidad Credito: ')
+            # YA ESTA HECHO
+            # loggeador(logDatosBDD,ruta,planesGob,'- Cantidad Planes Gob: ')
+            #loggeador(logDatosBDD,ruta,emisionNP,'- Cantidad EnP: ')
+            #loggeador(logDatosBDD,ruta,trxDebito,'- Cantidad Debito: ')
+            #loggeador(logDatosBDD,ruta,trxCredito,'- Cantidad Credito: ')
             logDatosBDD.close()
             
             timestamp = time.strftime('%Y%m%d%H%M%S')
             os.rename('mcap\\BDD\\logDatosBDD.txt', 'mcap\\BDD\\logDatosBDD_'+timestamp+'.txt')
 
-
-
             messagebox.showinfo(message='¡Subida OK al '+server+', verificar MOV2000_V1 en '+bd+'!', title="OK")
-            #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
+            #os.rename('Resultados.html', 'mcap\\BDD\\Resultados_'+timestamp+'.html')
+            #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")        
 
-        
-        except ZeroDivisionError:
+            ####JSON####
+            reporteMcap.reporteJson2(jsonParametroTipTar, jsonParametroENP, jsonParametroPG, jsonParametroCompMov2000)
+
+            ##LO NUEVO
+            graficas.graficoTipoDeTarjetas(a,b,c,d)
+
+
+
+        except:
             messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
             pass
@@ -132,6 +167,19 @@ def llamadoComparador():
             truncate2 = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V2') 
             bulk2 = accion (conexion,elbulk2)
 
+            #CREAMOS UNA TABLA DE CAMPOS BASICOS NUEVOS PARA COMPARAR SOBRE ESA
+            logicaBD.spCamposBasicos_ParaComparar(bd, conexion)
+
+            ########## NUEVO SP PARA COMPARAR Y SACAR QUERY DEL CODIGO ##############
+            comparaMov2000 = logicaBD.comparacionMov2000(bd, conexion)
+            print("DIFERENCIAS ENCONTRADAS: ", comparaMov2000)
+            a1, b1 = logicaBD.splitearCamposParaJsonComp2000(comparaMov2000)
+            jsonParametroCompMov2000 = logicaBD.armadoBasicoJsonComparaMov2000(a1, b1)
+
+            ####JSON####
+            reporteMcap.reporteJson(jsonParametroCompMov2000)
+
+
             query = """SELECT  count(*) FROM """+bd+""".[dbo].[MOV2000_V2] v2 WHERE NOT EXISTS (SELECT * FROM [dbo].[MOV2000_V1] v1 WHERE SUBSTRING(v1.Info,26,4)=SUBSTRING(v2.Info,26,4)
             AND SUBSTRING(v1.Info,36,16)=SUBSTRING(v2.Info,36,16)
             AND SUBSTRING(v1.Info,52,10)=SUBSTRING(v2.Info,52,10)
@@ -155,21 +203,32 @@ def llamadoComparador():
             logDatosBDD.write('\n')
             logDatosBDD.write('\n')
             loggeador(logDatosBDD,ruta,comparacion,'- Transacciones de Diferencia: ')
+            
+            
+            logDatosBDD.write("Transacciones de diferencia:")
+            logDatosBDD.write('\n')
+            logDatosBDD.write('MOV2000 2: '+comparaMov2000)
+            
+            
             logDatosBDD.close()
             
             timestamp = time.strftime('%Y%m%d%H%M%S')
             os.rename('mcap\\BDD\\logComparadorBDD.txt', 'mcap\\BDD\\logComparadorBDD_'+timestamp+'.txt')
 
 
+
             if comparacion == '0':
                 messagebox.showinfo(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! ¡NO HAY DIFERENCIAS!', title="OK")
+            
             else:
-                messagebox.showinfo(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! Hay ' +comparacion+' transacciones de diferencias', title="HAY DIFERENCIAS")                    
+                messagebox.showwarning(message='¡Conexión OK al '+server+', verificar MOV2000_V1 y MOV2000_V2 en '+bd+'! Hay ' +comparacion+' transacciones de diferencias', title="HAY DIFERENCIAS")                    
+            
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")
 
         
-        except :
-            messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
+        except Exception:
+            
+            messagebox.showerror(message="¡Fallo en el Proceso!", title="Error")
             print("Fallo Conexion")
             pass
 

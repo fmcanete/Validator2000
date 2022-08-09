@@ -1,0 +1,4 @@
+MOV2000 1: //wapp-ttpm025/k$/Vicap-ccr/VICAP/MOV2000.TXT
+MOV2000 2: //wapp-ttpm025/k$/Vicap-ccr/VICAP/MOV2000_modificado.TXT
+
+- Transacciones de Diferencia: 1 transacciones

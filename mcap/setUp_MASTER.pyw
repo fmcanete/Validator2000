@@ -12,13 +12,14 @@ from timeit import timeit
 #import archivos
 from mcap import *
 from mcap import archivos, Grilla,conectionMCAP,GrillaMOVRECHAZOS,archivoMOVRECHAZOS
+from mcap import logicaBD, graficas
 
-class OpenForms(): 
+class OpenForms():
 
 	def abrirFormulario():
 		window = tk.Tk() #Inicia el Formulario
 		window.title("MCAP - VALIDATOR")  #Pone el título
-		window.geometry('400x180') #Dimension el tamaño
+		window.geometry('400x215') #Dimension el tamaño
 		window.eval('tk::PlaceWindow . center')
 		window.iconbitmap('validator_icono.ico')
 		mensaje = Label(window,text="SELECCIONE OPCION PARA MCAP")
@@ -193,6 +194,9 @@ class OpenForms():
 		def clickedComparador():
 			llamada = conectionMCAP.llamadoComparador()
 
+		def reportePdf():
+			llamada = graficas.generarReportePDF()
+
 		btn = Button(window, text="Casos Particulares - MOV2000", command=clickedParticular)
 		btn.pack(expand= "True",fill="x")
 		btn.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
@@ -208,6 +212,10 @@ class OpenForms():
 		btn5 = Button(window, text="Comparador - Servidor", command=clickedComparador)
 		btn5.pack(expand= "True",fill="x")
 		btn5.configure(bg='chocolate1',fg="black",font='Helvetica 11 bold')
+		#AGREGO EL REPORTE PDF
+		btn6 = Button(window, text="Reporte PDF", command=reportePdf)
+		btn6.pack(expand= "True",fill="x")
+		btn6.configure(bg='tan1',fg="black",font='Helvetica 11 bold')
 
 		window.mainloop()
 		
