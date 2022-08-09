@@ -105,6 +105,8 @@ class manejoDeLosArchivosTXT():
 						'numTarMov2000','planGob', 'token', 'numToken', 'posDataCode', 'visaRelease','tipoTarjeta','campoBCRA','diasPago'])
 
 
+				
+
 				df.to_csv('CSV_MOV2000.CSV', sep=';')
 
 

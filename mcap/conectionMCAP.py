@@ -8,7 +8,7 @@ import time,os
 import json
 from json2html import *
 import subprocess
-from mcap import logicaBD
+from mcap import logicaBD, graficas, reporteMcap
 
 def abrir_archivo():
     #esto abre en el raiz. ver de mejorar y poner donde esta el proyecto
@@ -80,6 +80,7 @@ def llamado():
             filas = len(tipoTarjetas)
             columna = len(tipoTarjetas[0])
             a, b, c, d, e = logicaBD.splitearCamposParaJsonTipTar(tipoTarjetas, filas, columna)
+            #a = cant trx debito ; b=tipo debito; c= can trx credito, d=tipo credito; e= suma de totales
             jsonParametroTipTar = logicaBD.armadoBasicoJsonTipTar(a,b, c, d, e)
             
             #PARA EMISION NO PRISMA
@@ -106,9 +107,7 @@ def llamado():
             conexion.commit()
             conexion.close()
 
-            ####JSON####
-            logicaBD.reporteJson(jsonParametroTipTar, jsonParametroENP, jsonParametroPG)
-            
+           
 
             logDatosBDD = open('mcap\\BDD\\logDatosBDD.txt', "w") 
             logDatosBDD.write('MOV2000 subido: '+ruta)
@@ -128,6 +127,15 @@ def llamado():
             messagebox.showinfo(message='¡Subida OK al '+server+', verificar MOV2000_V1 en '+bd+'!', title="OK")
             #os.rename('Resultados.html', 'mcap\\BDD\\Resultados_'+timestamp+'.html')
             #messagebox.showinfo(message='El MOV2000 tiene: ' + total + ' transacciones', title="Cantidad")        
+
+            ####JSON####
+            reporteMcap.reporteJson2(jsonParametroTipTar, jsonParametroENP, jsonParametroPG, jsonParametroCompMov2000)
+
+            ##LO NUEVO
+            graficas.graficoTipoDeTarjetas(a,b,c,d)
+
+
+
         except:
             messagebox.showinfo(message="¡Fallo en Conexión!", title="Error")
             print("Fallo Conexion")
@@ -159,6 +167,19 @@ def llamadoComparador():
             truncate2 = accion(conexion,'TRUNCATE TABLE '+bd+'.dbo.MOV2000_V2') 
             bulk2 = accion (conexion,elbulk2)
 
+            #CREAMOS UNA TABLA DE CAMPOS BASICOS NUEVOS PARA COMPARAR SOBRE ESA
+            logicaBD.spCamposBasicos_ParaComparar(bd, conexion)
+
+            ########## NUEVO SP PARA COMPARAR Y SACAR QUERY DEL CODIGO ##############
+            comparaMov2000 = logicaBD.comparacionMov2000(bd, conexion)
+            print("DIFERENCIAS ENCONTRADAS: ", comparaMov2000)
+            a1, b1 = logicaBD.splitearCamposParaJsonComp2000(comparaMov2000)
+            jsonParametroCompMov2000 = logicaBD.armadoBasicoJsonComparaMov2000(a1, b1)
+
+            ####JSON####
+            reporteMcap.reporteJson(jsonParametroCompMov2000)
+
+
             query = """SELECT  count(*) FROM """+bd+""".[dbo].[MOV2000_V2] v2 WHERE NOT EXISTS (SELECT * FROM [dbo].[MOV2000_V1] v1 WHERE SUBSTRING(v1.Info,26,4)=SUBSTRING(v2.Info,26,4)
             AND SUBSTRING(v1.Info,36,16)=SUBSTRING(v2.Info,36,16)
             AND SUBSTRING(v1.Info,52,10)=SUBSTRING(v2.Info,52,10)
@@ -182,6 +203,13 @@ def llamadoComparador():
             logDatosBDD.write('\n')
             logDatosBDD.write('\n')
             loggeador(logDatosBDD,ruta,comparacion,'- Transacciones de Diferencia: ')
+            
+            
+            logDatosBDD.write("Transacciones de diferencia:")
+            logDatosBDD.write('\n')
+            logDatosBDD.write('MOV2000 2: '+comparaMov2000)
+            
+            
             logDatosBDD.close()
             
             timestamp = time.strftime('%Y%m%d%H%M%S')
@@ -200,7 +228,7 @@ def llamadoComparador():
         
         except Exception:
             
-            messagebox.showerror(message="¡Fallo en Conexión!", title="Error")
+            messagebox.showerror(message="¡Fallo en el Proceso!", title="Error")
             print("Fallo Conexion")
             pass
 

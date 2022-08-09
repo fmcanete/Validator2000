@@ -7,8 +7,7 @@ import pandas as pd
 # IMPORTAR LOS ARCHIVOS
 import vicap 
 from vicap import archivos, Grilla, archivoMkpriv, GrillaMkpriv,setUp_VISA,archivoMOVRECHAZOS,GrillaMOVRECHAZOS
-from mcap import archivos, Grilla,setUp_MASTER, logicaBD
-import Multicap
+from mcap import archivos, Grilla,setUp_MASTER, logicaBD, graficas
 from Multicap import setUp_MULTICAP 
 
 ########################### Imagen Fantastica ################################################
@@ -26,7 +25,6 @@ canvas.config(width="350", height="100")
 window.after(3000, window.destroy)
 window.mainloop()
 ###############################################################################################
-
 
 def Inicializar(parametro):
     parametro.OpenForms.abrirFormulario()
